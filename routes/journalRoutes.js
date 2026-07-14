@@ -1,12 +1,13 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const JournalEntry = require('../models/JournalEntry');
 const { encrypt, decrypt } = require('../utils/encryption');
 
-router.post('/journal', async (req, res) => {
+router.post('/journal', auth, async (req, res) => {
   try {
     const entry = new JournalEntry({
-      user: req.body.user,
+      user: req.userId,
       title: req.body.title,
       content: encrypt(req.body.content),
       isLocked: req.body.isLocked,
@@ -19,9 +20,9 @@ router.post('/journal', async (req, res) => {
   }
 });
 
-router.get('/journal/:userId', async (req, res) => {
+router.get('/journal', auth, async (req, res) => {
   try {
-    const entries = await JournalEntry.find({ user: req.params.userId });
+    const entries = await JournalEntry.find({ user: req.userId });
     const decrypted = entries.map((entry) => ({
       id: entry._id,
       title: entry.title,
