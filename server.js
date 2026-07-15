@@ -6,7 +6,7 @@ const journalRoutes = require('./routes/journalRoutes');
 
 const app = express();
 app.use(express.json());
-const Port = 3000;
+const Port = process.env.Port || 3000;
 
 app.get('/', (req, res) => {
   res.send('Hello from Spiritual Corner!');
