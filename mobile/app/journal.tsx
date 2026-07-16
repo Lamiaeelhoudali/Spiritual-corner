@@ -68,15 +68,19 @@ export default function JournalScreen() {
         <Text style={styles.empty}>No entries yet</Text>
       ) : (
         <FlatList
-          data={entries}
+         data={entries}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.entry}>
+            <Pressable
+              style={styles.entry}
+              onPress={() => {
+                if (item.isLocked) router.push(`/unlock/${item.id}`);
+              }}>
               <Text style={styles.entryTitle}>{item.title}</Text>
               <Text style={styles.entryContent}>
-                {item.isLocked ? '🔒 Locked' : item.content}
+                {item.isLocked ? '🔒 Locked (tap to unlock)' : item.content}
               </Text>
-            </View>
+            </Pressable>
           )}
         />
       )}
