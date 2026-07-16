@@ -1,48 +1,68 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
 import { router } from 'expo-router';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  async function handleLogin() {
-    console.log('Login button pressed');
+  async function handleRegister() {
+    setError('');
+    setSuccess('');
+
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError('Please fill all fields');
+      return;
+    }
+
     try {
-      const response = await fetch('https://spiritual-corner.onrender.com/login', {
+      const response = await fetch('https://spiritual-corner.onrender.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        }),
       });
-      console.log('Got response, status:', response.status);
-      const data = await response.json();
-      console.log('Response data:', data);
+
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        setError(data.error || 'Login failed');
+        setError(data?.error || 'Registration failed');
         return;
       }
-      await SecureStore.setItemAsync('token', data.token);
-      await SecureStore.setItemAsync('name', data.name);
-      console.log('Token saved, navigating...');
-      router.replace('/');
-    } catch (err) {
-      console.log('Error caught:', err);
+
+      setSuccess('Account created. Please log in.');
+      setTimeout(() => router.replace('/login'), 700);
+    } catch {
       setError('Could not connect to server');
     }
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Log In</Text>
+      <Text style={styles.title}>Create Account</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+      />
+
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
+        keyboardType="email-address"
       />
+
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -50,15 +70,17 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         secureTextEntry
       />
+
       {error ? <Text style={styles.error}>{error}</Text> : null}
-<Pressable style={styles.button} onPress={handleLogin}>
-  <Text style={styles.buttonText}>Log In</Text>
-</Pressable>
+      {success ? <Text style={styles.success}>{success}</Text> : null}
 
-<Pressable onPress={() => router.push('/register')}>
-  <Text style={styles.link}>Don’t have an account? Register</Text>
-</Pressable>
+      <Pressable style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Register</Text>
+      </Pressable>
 
+      <Pressable onPress={() => router.push('/login')}>
+        <Text style={styles.link}>Already have an account? Log In</Text>
+      </Pressable>
     </View>
   );
 }
@@ -91,13 +113,19 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textAlign: 'center',
   },
+  success: {
+    color: '#2e7d32',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
   button: {
     backgroundColor: '#2e7d32',
     padding: 14,
     borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 14,
   },
-    buttonText: {
+  buttonText: {
     color: '#ffffff',
     fontWeight: 'bold',
   },
@@ -105,6 +133,5 @@ const styles = StyleSheet.create({
     color: '#2e7d32',
     textAlign: 'center',
     fontWeight: '600',
-    marginTop: 14,
   },
 });

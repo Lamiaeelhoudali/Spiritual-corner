@@ -24,7 +24,12 @@ export default function HomeScreen() {
       {name ? (
         <>
           <Text style={styles.welcome}>Welcome back, {name}</Text>
-          <Pressable style={styles.button} onPress={handleLogout}>
+
+          <Pressable style={styles.button} onPress={() => router.push('/journal')}>
+            <Text style={styles.buttonText}>My Journal</Text>
+          </Pressable>
+
+          <Pressable style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
             <Text style={styles.buttonText}>Log Out</Text>
           </Pressable>
         </>
@@ -42,5 +47,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold', color: '#000000', marginBottom: 24 },
   welcome: { fontSize: 18, color: '#000000', marginBottom: 16 },
   button: { backgroundColor: '#2e7d32', paddingVertical: 12, paddingHorizontal: 32, borderRadius: 8 },
+  logoutButton: { marginTop: 12, backgroundColor: '#555555' },
   buttonText: { color: '#ffffff', fontWeight: 'bold' },
 });
