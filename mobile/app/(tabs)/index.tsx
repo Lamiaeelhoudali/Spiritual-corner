@@ -90,6 +90,9 @@ export default function HomeScreen() {
           <Pressable style={styles.button} onPress={() => router.push('/journal')}>
             <Text style={styles.buttonText}>My Journal</Text>
           </Pressable>
+          <Pressable style={styles.button} onPress={() => router.push('/tracker')}>
+          <Text style={styles.buttonText}>Prayer Tracker</Text>
+          </Pressable>
           <Pressable style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
             <Text style={styles.buttonText}>Log Out</Text>
           </Pressable>
