@@ -74,7 +74,7 @@ export default function JournalScreen() {
             <Pressable
               style={styles.entry}
               onPress={() => {
-                if (item.isLocked) router.push(`/unlock/${item.id}`);
+                if (item.isLocked) router.push(`/unlock/${item.id}?title=${encodeURIComponent(item.title)}`);
               }}>
               <Text style={styles.entryTitle}>{item.title}</Text>
               <Text style={styles.entryContent}>

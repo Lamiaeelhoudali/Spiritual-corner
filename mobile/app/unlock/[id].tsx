@@ -4,7 +4,7 @@ import { useLocalSearchParams, router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 
 export default function UnlockEntryScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id , title} = useLocalSearchParams<{ id: string; title?: string }>();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [content, setContent] = useState('');
@@ -55,7 +55,7 @@ export default function UnlockEntryScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Unlock Entry</Text>
+      <Text style={styles.title}>{title || 'Unlock Entry'}</Text>
 
       <TextInput
         style={styles.input}
