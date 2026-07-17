@@ -7,6 +7,7 @@ import * as Location from 'expo-location';
 export default function HomeScreen() {
   const [name, setName] = useState<string | null>(null);
   const [timings, setTimings] = useState<Record<string, string> | null>(null);
+  const [hijriDate, setHijriDate] = useState<string | null>(null);
   const [prayerError, setPrayerError] = useState('');
   const [loadingPrayers, setLoadingPrayers] = useState(true);
 
@@ -34,10 +35,10 @@ export default function HomeScreen() {
       const { latitude, longitude } = location.coords;
 
       const today = new Date();
-      const dateStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+      const dateStr = String(today.getDate()).padStart(2, '0') + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + today.getFullYear();
 
       const response = await fetch(
-        `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}`
+        'https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + latitude + '&longitude=' + longitude
       );
       const data = await response.json();
 
@@ -47,6 +48,8 @@ export default function HomeScreen() {
       }
 
       setTimings(data.data.timings);
+      const hijri = data.data.date.hijri;
+      setHijriDate(hijri.day + ' ' + hijri.month.en + ' ' + hijri.year + ' AH');
     } catch {
       setPrayerError('Could not get location or prayer times');
     } finally {
@@ -71,6 +74,7 @@ export default function HomeScreen() {
           <Text style={styles.prayerError}>{prayerError}</Text>
         ) : timings ? (
           <>
+            {hijriDate ? <Text style={styles.hijriText}>{hijriDate}</Text> : null}
             <Text style={styles.prayerRow}>Fajr: {timings.Fajr}</Text>
             <Text style={styles.prayerRow}>Dhuhr: {timings.Dhuhr}</Text>
             <Text style={styles.prayerRow}>Asr: {timings.Asr}</Text>
@@ -103,6 +107,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' },
   title: { fontSize: 24, fontWeight: 'bold', color: '#000000', marginBottom: 16 },
   prayerBox: { marginBottom: 24, alignItems: 'center' },
+  hijriText: { fontSize: 16, color: '#2e7d32', fontWeight: '600', marginBottom: 8 },
   prayerRow: { fontSize: 16, color: '#000000', marginBottom: 4 },
   prayerError: { color: '#cc0000', textAlign: 'center' },
   welcome: { fontSize: 18, color: '#000000', marginBottom: 16 },
