@@ -3,6 +3,15 @@ import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-nati
 import { router, useFocusEffect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function HomeScreen() {
   const [name, setName] = useState<string | null>(null);
@@ -50,6 +59,8 @@ export default function HomeScreen() {
       setTimings(data.data.timings);
       const hijri = data.data.date.hijri;
       setHijriDate(hijri.day + ' ' + hijri.month.en + ' ' + hijri.year + ' AH');
+      scheduleAzanNotifications(data.data.timings);
+
     } catch {
       setPrayerError('Could not get location or prayer times');
     } finally {
@@ -62,7 +73,35 @@ export default function HomeScreen() {
     await SecureStore.deleteItemAsync('name');
     setName(null);
   }
+  async function scheduleAzanNotifications(prayerTimes: Record<string, string>) {
+  const { status } = await Notifications.requestPermissionsAsync();
+  if (status !== 'granted') return;
 
+  await Notifications.cancelAllScheduledNotificationsAsync();
+
+  const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+  const now = new Date();
+
+  for (const prayer of prayers) {
+    const [hours, minutes] = prayerTimes[prayer].split(':').map(Number);
+    const prayerDate = new Date();
+    prayerDate.setHours(hours, minutes, 0, 0);
+
+    if (prayerDate > now) {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: 'Prayer Time',
+          body: `It is time for ${prayer} prayer.`,
+          sound: true,
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date: prayerDate,
+        },
+      });
+    }
+  }
+}
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Spiritual Corner</Text>
@@ -105,6 +144,7 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Log In</Text>
         </Pressable>
       )}
+        
     </View>
   );
 }
