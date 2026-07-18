@@ -84,6 +84,9 @@ export default function JournalScreen() {
           )}
         />
       )}
+      <Pressable style={styles.backButton} onPress={() => router.push('/')}>
+        <Text style={styles.backText}>Back to Home</Text>
+      </Pressable>
     </View>
   );
 }
@@ -98,4 +101,6 @@ const styles = StyleSheet.create({
   entry: { borderWidth: 1, borderColor: '#dddddd', borderRadius: 8, padding: 12, marginBottom: 12 },
   entryTitle: { fontWeight: 'bold', fontSize: 16, color: '#000000', marginBottom: 4 },
   entryContent: { color: '#333333' },
+  backButton: { marginTop: 16, alignItems: 'center' },
+backText: { color: '#2e7d32', fontWeight: '600' },
 });

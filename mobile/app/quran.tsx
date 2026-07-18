@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
-import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { useAudioPlayer, useAudioPlayerStatus, setAudioModeAsync } from 'expo-audio';
 
 type Surah = {
   number: number;
@@ -17,6 +17,10 @@ export default function QuranScreen() {
 
   const player = useAudioPlayer(currentUri);
   const status = useAudioPlayerStatus(player);
+
+  useEffect(() => {
+    setAudioModeAsync({ playsInSilentMode: true });
+  }, []);
 
   useEffect(() => {
     loadSurahs();
@@ -54,6 +58,7 @@ export default function QuranScreen() {
       {currentSurah ? (
         <View style={styles.nowPlaying}>
           <Text style={styles.nowPlayingText}>Playing: {currentSurah.englishName}</Text>
+    
           <Pressable
             style={styles.playPauseButton}
             onPress={() => (status.playing ? player.pause() : player.play())}>
