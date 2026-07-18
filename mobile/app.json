@@ -40,7 +40,15 @@
         }
       ],
       "expo-secure-store",
-      "expo-audio"
+      "expo-audio",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#2e7d32",
+          "sounds": ["./assets/sounds/azan.mp3"]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
