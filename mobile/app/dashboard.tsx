@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import { useTheme } from '../context/ThemeContext';
 
-Notifications.setNotificationHandler({
+  Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: true,
     shouldShowList: true,
@@ -22,12 +22,15 @@ export default function DashboardScreen() {
   const [hijriDate, setHijriDate] = useState<string | null>(null);
   const [prayerError, setPrayerError] = useState('');
   const [loadingPrayers, setLoadingPrayers] = useState(true);
-
+  const [avatar, setAvatar] = useState('🕌');
   useFocusEffect(
-    useCallback(() => {
-      SecureStore.getItemAsync('name').then(setName);
-    }, [])
-  );
+  useCallback(() => {
+    SecureStore.getItemAsync('name').then(setName);
+    SecureStore.getItemAsync('avatar').then((saved) => {
+      if (saved) setAvatar(saved);
+    });
+  }, [])
+);
 
   useEffect(() => {
     loadPrayerTimes();
@@ -76,6 +79,7 @@ export default function DashboardScreen() {
 
   async function scheduleAzanNotifications(prayerTimes: Record<string, string>) {
     await setupNotificationChannel();
+    const avatar = (await SecureStore.getItemAsync('avatar')) || '🕌';
     const { status } = await Notifications.requestPermissionsAsync();
     if (status !== 'granted') return;
     await Notifications.cancelAllScheduledNotificationsAsync();
@@ -87,7 +91,7 @@ export default function DashboardScreen() {
       prayerDate.setHours(hours, minutes, 0, 0);
       if (prayerDate > now) {
         await Notifications.scheduleNotificationAsync({
-          content: { title: 'Prayer Time', body: `It is time for ${prayer} prayer.`, sound: 'azan.mp3' },
+          content: { title: `${avatar} Prayer Time`, body: `It is time for ${prayer} prayer.`, sound: 'azan.mp3' },
           trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: prayerDate, channelId: 'azan' },
         });
       }
@@ -138,8 +142,8 @@ export default function DashboardScreen() {
       </Pressable>
 
         {name ? (
-        <Text style={[styles.welcome, { color: colors.text }]}>Welcome back, {name}</Text>
-        ) : null}
+      <Text style={[styles.welcome, { color: colors.text }]}>{avatar} Welcome back, {name}</Text>
+      ) : null}
       </View>
     </ImageBackground>
   );
