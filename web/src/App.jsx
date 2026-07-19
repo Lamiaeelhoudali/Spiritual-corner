@@ -7,6 +7,8 @@ import Journal from './pages/Journal';
 import Tracker from './pages/Tracker';
 import Quran from './pages/Quran';
 import Qibla from './pages/Qibla';
+import NewEntry from './pages/NewEntry';
+import Unlock from './pages/Unlock';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/tracker" element={<Tracker />} />
         <Route path="/quran" element={<Quran />} />
         <Route path="/qibla" element={<Qibla />} />
+        <Route path="/new-entry" element={<NewEntry />} />
+        <Route path="/unlock/:id" element={<Unlock />} /> 
       </Routes>
     </BrowserRouter>
   );
