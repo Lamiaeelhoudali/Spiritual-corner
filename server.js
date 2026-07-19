@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const journalRoutes = require('./routes/journalRoutes');
 const trackerRoutes = require('./routes/trackerRoutes');
 const app = express();
+app.use(cors());
 app.use(express.json());
 const Port = process.env.PORT || 3000;
 
