@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { useTheme } from '../context/ThemeContext';
 
 export default function RegisterScreen() {
+  const { colors } = useTheme();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,11 +24,7 @@ export default function RegisterScreen() {
       const response = await fetch('https://spiritual-corner.onrender.com/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          password,
-        }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
       });
 
       const data = await response.json().catch(() => ({}));
@@ -44,19 +42,21 @@ export default function RegisterScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>Create Account</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: colors.text, borderColor: colors.border }]}
         placeholder="Name"
+        placeholderTextColor={colors.border}
         value={name}
         onChangeText={setName}
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: colors.text, borderColor: colors.border }]}
         placeholder="Email"
+        placeholderTextColor={colors.border}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -64,8 +64,9 @@ export default function RegisterScreen() {
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: colors.text, borderColor: colors.border }]}
         placeholder="Password"
+        placeholderTextColor={colors.border}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -86,52 +87,12 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 100,
-    padding: 24,
-    backgroundColor: '#ffffff',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 24,
-    color: '#000000',
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    color: '#000000',
-  },
-  error: {
-    color: '#cc0000',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  success: {
-    color: '#2e7d32',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  button: {
-    backgroundColor: '#2e7d32',
-    padding: 14,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 14,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontWeight: 'bold',
-  },
-  link: {
-    color: '#2e7d32',
-    textAlign: 'center',
-    fontWeight: '600',
-  },
+  container: { flex: 1, justifyContent: 'flex-start', paddingTop: 100, padding: 24 },
+  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 24, textAlign: 'center' },
+  input: { borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12 },
+  error: { color: '#cc0000', marginBottom: 12, textAlign: 'center' },
+  success: { color: '#2e7d32', marginBottom: 12, textAlign: 'center' },
+  button: { backgroundColor: '#2e7d32', padding: 14, borderRadius: 8, alignItems: 'center', marginBottom: 14 },
+  buttonText: { color: '#ffffff', fontWeight: 'bold' },
+  link: { color: '#2e7d32', textAlign: 'center', fontWeight: '600' },
 });

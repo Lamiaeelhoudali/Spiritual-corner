@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
 import { useAudioPlayer, useAudioPlayerStatus, setAudioModeAsync } from 'expo-audio';
+import { useTheme } from '../context/ThemeContext';
 
 type Surah = {
   number: number;
@@ -10,6 +11,7 @@ type Surah = {
 };
 
 export default function QuranScreen() {
+  const { colors } = useTheme();
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUri, setCurrentUri] = useState<string | null>(null);
@@ -52,17 +54,16 @@ export default function QuranScreen() {
   }, [player]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Quran</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>Quran</Text>
 
       {currentSurah ? (
-        <View style={styles.nowPlaying}>
-          <Text style={styles.nowPlayingText}>Playing: {currentSurah.englishName}</Text>
-    
+        <View style={[styles.nowPlaying, { backgroundColor: colors.card }]}>
+          <Text style={[styles.nowPlayingText, { color: colors.text }]}>Playing: {currentSurah.englishName}</Text>
           <Pressable
             style={styles.playPauseButton}
             onPress={() => (status.playing ? player.pause() : player.play())}>
-            <Text style={styles.playPauseText}>{status.playing ? '⏸ Pause' : '▶ Play'}</Text>
+            <Text style={styles.playPauseText}>{status.playing ? 'Pause' : 'Play'}</Text>
           </Pressable>
         </View>
       ) : null}
@@ -74,8 +75,8 @@ export default function QuranScreen() {
           data={surahs}
           keyExtractor={(item) => item.number.toString()}
           renderItem={({ item }) => (
-            <Pressable style={styles.row} onPress={() => playSurah(item)}>
-              <Text style={styles.rowText}>{item.number}. {item.englishName}</Text>
+            <Pressable style={[styles.row, { borderBottomColor: colors.border }]} onPress={() => playSurah(item)}>
+              <Text style={[styles.rowText, { color: colors.text }]}>{item.number}. {item.englishName}</Text>
             </Pressable>
           )}
         />
@@ -89,14 +90,14 @@ export default function QuranScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, paddingTop: 80, backgroundColor: '#ffffff' },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#000000', marginBottom: 16 },
-  nowPlaying: { backgroundColor: '#e8f5e9', borderRadius: 8, padding: 12, marginBottom: 16, alignItems: 'center' },
-  nowPlayingText: { fontSize: 16, color: '#000000', marginBottom: 8 },
+  container: { flex: 1, padding: 24, paddingTop: 80 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+  nowPlaying: { borderRadius: 8, padding: 12, marginBottom: 16, alignItems: 'center' },
+  nowPlayingText: { fontSize: 16, marginBottom: 8 },
   playPauseButton: { backgroundColor: '#2e7d32', paddingVertical: 8, paddingHorizontal: 20, borderRadius: 8 },
   playPauseText: { color: '#ffffff', fontWeight: 'bold' },
-  row: { borderBottomWidth: 1, borderBottomColor: '#eeeeee', paddingVertical: 12 },
-  rowText: { fontSize: 16, color: '#000000' },
+  row: { borderBottomWidth: 1, paddingVertical: 12 },
+  rowText: { fontSize: 16 },
   backButton: { marginTop: 16, alignItems: 'center' },
   backText: { color: '#2e7d32', fontWeight: '600' },
 });
