@@ -75,6 +75,7 @@ export default function Dashboard() {
       <button style={styles.button} onClick={() => navigate('/quran')}>Quran</button>
       <button style={styles.button} onClick={() => navigate('/journal')}>My Journal</button>
       <button style={styles.button} onClick={() => navigate('/tracker')}>Prayer Tracker</button>
+      <button style={styles.button} onClick={() => navigate('/avatar')}>Avatar</button>
 
       {name ? <p style={styles.welcome}>Welcome back, {name}</p> : null}
     </div>

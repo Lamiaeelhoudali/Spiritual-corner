@@ -126,6 +126,16 @@ export default function DashboardScreen() {
         <Pressable style={styles.button} onPress={() => router.push('/tracker')}>
           <Text style={styles.buttonText}>Prayer Tracker</Text>
         </Pressable>
+        <Pressable style={styles.button} onPress={() => router.push('/tasbeeh')}>
+        <Text style={styles.buttonText}>Tasbeeh</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={() => router.push('/adkar')}>
+        <Text style={styles.buttonText}>Adkar</Text>
+        </Pressable>
+
+      <Pressable style={styles.button} onPress={() => router.push('/avatar')}>
+       <Text style={styles.buttonText}>Avatar</Text>
+      </Pressable>
 
         {name ? (
         <Text style={[styles.welcome, { color: colors.text }]}>Welcome back, {name}</Text>

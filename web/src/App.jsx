@@ -9,7 +9,9 @@ import Quran from './pages/Quran';
 import Qibla from './pages/Qibla';
 import NewEntry from './pages/NewEntry';
 import Unlock from './pages/Unlock';
-
+import Tasbeeh from './pages/Tasbeeh';
+import Adkar from './pages/Adkar';
+import Avatar from './pages/Avatar';
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +26,9 @@ function App() {
         <Route path="/qibla" element={<Qibla />} />
         <Route path="/new-entry" element={<NewEntry />} />
         <Route path="/unlock/:id" element={<Unlock />} /> 
+        <Route path="/tasbeeh" element={<Tasbeeh />} />
+        <Route path="/adkar" element={<Adkar />} />
+        <Route path="/avatar" element={<Avatar />} /> 
       </Routes>
     </BrowserRouter>
   );
