@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import homeImg from '../assets/home.jpg';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,13 +17,16 @@ export default function Home() {
 
 const styles = {
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    backgroundColor: '#121212',
-    color: '#ffffff',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
+  backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url(${homeImg})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  color: '#ffffff',
+
   },
   titleEnglish: { fontSize: 32, marginBottom: 4 },
   titleArabic: { fontSize: 26, marginBottom: 40 },

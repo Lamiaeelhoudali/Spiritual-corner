@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ActivityIndicator, ImageBackground, ScrollView } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import { useTheme } from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
-  Notifications.setNotificationHandler({
+Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: true,
     shouldShowList: true,
@@ -23,14 +24,17 @@ export default function DashboardScreen() {
   const [prayerError, setPrayerError] = useState('');
   const [loadingPrayers, setLoadingPrayers] = useState(true);
   const [avatar, setAvatar] = useState('🕌');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
+
   useFocusEffect(
-  useCallback(() => {
-    SecureStore.getItemAsync('name').then(setName);
-    SecureStore.getItemAsync('avatar').then((saved) => {
-      if (saved) setAvatar(saved);
-    });
-  }, [])
-);
+    useCallback(() => {
+      SecureStore.getItemAsync('name').then(setName);
+      SecureStore.getItemAsync('avatar').then((saved) => {
+        if (saved) setAvatar(saved);
+      });
+    }, [])
+  );
 
   useEffect(() => {
     loadPrayerTimes();
@@ -68,6 +72,11 @@ export default function DashboardScreen() {
     }
   }
 
+  async function handleLogout() {
+    await SecureStore.deleteItemAsync('token');
+    await SecureStore.deleteItemAsync('name');
+    setName(null);
+  }
 
   async function setupNotificationChannel() {
     await Notifications.setNotificationChannelAsync('azan', {
@@ -100,64 +109,116 @@ export default function DashboardScreen() {
 
   return (
     <ImageBackground source={colors.backgroundImage} style={styles.container} resizeMode="cover">
-      <View style={styles.overlay}>
-        <View style={[styles.prayerBox, { backgroundColor: colors.card }]}>
-          {loadingPrayers ? (
-            <ActivityIndicator color="#2e7d32" />
-          ) : prayerError ? (
-            <Text style={styles.prayerError}>{prayerError}</Text>
-          ) : timings ? (
-            <>
-              {hijriDate ? <Text style={[styles.hijriText, { color: colors.text }]}>{hijriDate}</Text> : null}
-              <Text style={[styles.prayerRow, { color: colors.text }]}>Fajr (الفجر): {timings.Fajr}</Text>
-              <Text style={[styles.prayerRow, { color: colors.text }]}>Dhuhr (الظهر): {timings.Dhuhr}</Text>
-              <Text style={[styles.prayerRow, { color: colors.text }]}>Asr (العصر): {timings.Asr}</Text>
-              <Text style={[styles.prayerRow, { color: colors.text }]}>Maghrib (المغرب): {timings.Maghrib}</Text>
-              <Text style={[styles.prayerRow, { color: colors.text }]}>Isha (العشاء): {timings.Isha}</Text>
-            </>
-          ) : null}
+      <ScrollView contentContainerStyle={styles.overlay}>
+        <View style={styles.topSection}>
+          <View style={styles.prayerBox}>
+            {loadingPrayers ? (
+              <ActivityIndicator color="#2e7d32" />
+            ) : prayerError ? (
+              <Text style={styles.prayerError}>{prayerError}</Text>
+            ) : timings ? (
+              <>
+                {hijriDate ? <Text style={styles.hijriText}>{hijriDate}</Text> : null}
+                <View style={styles.prayerRowHorizontal}>
+                  <View style={styles.prayerItem}>
+                    <Text style={styles.prayerName}>{t('fajr')}</Text>
+                    <Text style={styles.prayerTime}>{timings.Fajr}</Text>
+                  </View>
+                  <View style={styles.prayerItem}>
+                    <Text style={styles.prayerName}>{t('dhuhr')}</Text>
+                    <Text style={styles.prayerTime}>{timings.Dhuhr}</Text>
+                  </View>
+                  <View style={styles.prayerItem}>
+                    <Text style={styles.prayerName}>{t('asr')}</Text>
+                    <Text style={styles.prayerTime}>{timings.Asr}</Text>
+                  </View>
+                  <View style={styles.prayerItem}>
+                    <Text style={styles.prayerName}>{t('maghrib')}</Text>
+                    <Text style={styles.prayerTime}>{timings.Maghrib}</Text>
+                  </View>
+                  <View style={[styles.prayerItem, { borderRightWidth: 0 }]}>
+                    <Text style={styles.prayerName}>{t('isha')}</Text>
+                    <Text style={styles.prayerTime}>{timings.Isha}</Text>
+                  </View>
+                </View>
+              </>
+            ) : null}
+          </View>
         </View>
 
-        <Pressable style={styles.button} onPress={() => router.push('/qibla')}>
-          <Text style={styles.buttonText}>Qibla</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => router.push('/quran')}>
-          <Text style={styles.buttonText}>Quran</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => router.push('/journal')}>
-          <Text style={styles.buttonText}>My Journal</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => router.push('/tracker')}>
-          <Text style={styles.buttonText}>Prayer Tracker</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => router.push('/tasbeeh')}>
-        <Text style={styles.buttonText}>Tasbeeh</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => router.push('/adkar')}>
-        <Text style={styles.buttonText}>Adkar</Text>
-        </Pressable>
+        <View style={styles.bottomSection}>
+          <View style={[styles.actionRow, { backgroundColor: colors.card }]}>
+            <Pressable style={styles.actionButton} onPress={() => router.push('/qibla')}>
+              <Text style={styles.buttonText}>{t('qibla')}</Text>
+            </Pressable>
+            <Pressable style={styles.actionButton} onPress={() => router.push('/quran')}>
+              <Text style={styles.buttonText}>{t('quran')}</Text>
+            </Pressable>
+            <Pressable style={styles.actionButton} onPress={() => setMenuOpen((prev) => !prev)}>
+              <Text style={styles.buttonText}>☰ More</Text>
+            </Pressable>
+          </View>
 
-      <Pressable style={styles.button} onPress={() => router.push('/avatar')}>
-       <Text style={styles.buttonText}>Avatar</Text>
-      </Pressable>
+          {menuOpen ? (
+            <View style={[styles.menu, { backgroundColor: colors.card }]}>
+              <View style={styles.menuItem}>
+                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('language') || 'Language'}</Text>
+                <View style={styles.langOptions}>
+                  <Pressable onPress={() => i18n.changeLanguage('en')}>
+                    <Text style={[styles.langOption, i18n.language === 'en' && styles.langOptionActive]}>English</Text>
+                  </Pressable>
+                  <Pressable onPress={() => i18n.changeLanguage('fr')}>
+                    <Text style={[styles.langOption, i18n.language === 'fr' && styles.langOptionActive]}>Français</Text>
+                  </Pressable>
+                </View>
+              </View>
+              <Pressable style={styles.menuItem} onPress={() => router.push('/journal')}>
+                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('myJournal')}</Text>
+              </Pressable>
+              <Pressable style={styles.menuItem} onPress={() => router.push('/tracker')}>
+                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('prayerTracker')}</Text>
+              </Pressable>
+              <Pressable style={styles.menuItem} onPress={() => router.push('/tasbeeh')}>
+                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('tasbeeh')}</Text>
+              </Pressable>
+              <Pressable style={styles.menuItem} onPress={() => router.push('/adkar')}>
+                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('adkar')}</Text>
+              </Pressable>
+              <Pressable style={styles.menuItem} onPress={() => router.push('/avatar')}>
+                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('avatar')}</Text>
+              </Pressable>
+            </View>
+          ) : null}
 
-        {name ? (
-      <Text style={[styles.welcome, { color: colors.text }]}>{avatar} Welcome back, {name}</Text>
-      ) : null}
-      </View>
+          {name ? (
+            <Text style={[styles.welcome, { color: colors.text }]}>{avatar} {t('welcomeBack')}, {name}</Text>
+          ) : null}
+        </View>
+      </ScrollView>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.15)', justifyContent: 'center', alignItems: 'center', padding: 24 },
-  prayerBox: { marginBottom: 24, alignItems: 'center', padding: 16, borderRadius: 12 },
-  hijriText: { fontSize: 16, color: '#2e7d32', fontWeight: '600', marginBottom: 8 },
-  prayerRow: { fontSize: 16, marginBottom: 4 },
+  overlay: { flexGrow: 1, backgroundColor: 'rgba(0,0,0,0.15)', justifyContent: 'space-between', alignItems: 'center', padding: 24, paddingTop: 60 },
+  topSection: { width: '100%', alignItems: 'center' },
+  bottomSection: { width: '100%', alignItems: 'center' },
+  prayerBox: { marginBottom: 24, alignItems: 'center', padding: 16, borderRadius: 12, width: '100%', backgroundColor: '#e8dcc8' },
+  hijriText: { fontSize: 18, color: '#2e7d32', fontWeight: '600', fontStyle: 'italic', marginBottom: 8 },
+  prayerRowHorizontal: { flexDirection: 'row', width: '100%' },
+  prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)' },
+  prayerName: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', color: '#000000' },
+  prayerTime: { fontSize: 18, color: '#000000' },
   prayerError: { color: '#cc0000', textAlign: 'center' },
-  welcome: { fontSize: 18, marginBottom: 16 },
-  button: { backgroundColor: '#2e7d32', paddingVertical: 12, paddingHorizontal: 32, borderRadius: 8, marginBottom: 8 },
-  logoutButton: { backgroundColor: '#999999', marginTop: 12 },
-  buttonText: { color: '#ffffff', fontWeight: 'bold' },
+  welcome: { fontSize: 18, marginTop: 4, fontStyle: 'italic' },
+  buttonText: { color: '#000000', fontWeight: 'bold', fontStyle: 'italic' },
+  menu: { width: '100%', borderRadius: 12, padding: 8, marginBottom: 16 },
+  menuItem: { padding: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.1)' },
+  menuItemText: { fontSize: 16, fontWeight: '600', fontStyle: 'italic' },
+  actionRow: { flexDirection: 'row', width: '100%', borderRadius: 12, padding: 8, marginBottom: 4, gap: 8 },
+  actionButton: { flex: 1, backgroundColor: '#e8dcc8', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
+  langOptions: { flexDirection: 'row', gap: 16, marginTop: 6 },
+  langOption: { fontSize: 14, color: '#888888' },
+  langOptionActive: { color: '#2e7d32', fontWeight: 'bold' },
 });
