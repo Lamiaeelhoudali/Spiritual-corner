@@ -121,23 +121,23 @@ export default function DashboardScreen() {
                 {hijriDate ? <Text style={styles.hijriText}>{hijriDate}</Text> : null}
                 <View style={styles.prayerRowHorizontal}>
                   <View style={styles.prayerItem}>
-                    <Text style={styles.prayerName}>{t('fajr')}</Text>
+                    <Text style={styles.prayerName} numberOfLines={1}>{t('fajr')}</Text>
                     <Text style={styles.prayerTime}>{timings.Fajr}</Text>
                   </View>
                   <View style={styles.prayerItem}>
-                    <Text style={styles.prayerName}>{t('dhuhr')}</Text>
+                    <Text style={styles.prayerName} numberOfLines={1}>{t('dhuhr')}</Text>
                     <Text style={styles.prayerTime}>{timings.Dhuhr}</Text>
                   </View>
                   <View style={styles.prayerItem}>
-                    <Text style={styles.prayerName}>{t('asr')}</Text>
+                    <Text style={styles.prayerName} numberOfLines={1}>{t('asr')}</Text>
                     <Text style={styles.prayerTime}>{timings.Asr}</Text>
                   </View>
                   <View style={styles.prayerItem}>
-                    <Text style={styles.prayerName}>{t('maghrib')}</Text>
+                    <Text style={styles.prayerName} numberOfLines={1}>{t('maghrib')}</Text>
                     <Text style={styles.prayerTime}>{timings.Maghrib}</Text>
                   </View>
                   <View style={[styles.prayerItem, { borderRightWidth: 0 }]}>
-                    <Text style={styles.prayerName}>{t('isha')}</Text>
+                    <Text style={styles.prayerName} numberOfLines={1}>{t('isha')}</Text>
                     <Text style={styles.prayerTime}>{timings.Isha}</Text>
                   </View>
                 </View>
@@ -207,9 +207,9 @@ const styles = StyleSheet.create({
   prayerBox: { marginBottom: 24, alignItems: 'center', padding: 16, borderRadius: 12, width: '100%', backgroundColor: '#e8dcc8' },
   hijriText: { fontSize: 18, color: '#2e7d32', fontWeight: '600', fontStyle: 'italic', marginBottom: 8 },
   prayerRowHorizontal: { flexDirection: 'row', width: '100%' },
-  prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)' },
-  prayerName: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', color: '#000000' },
-  prayerTime: { fontSize: 18, color: '#000000' },
+  prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 2 },
+  prayerName: { fontSize: 11, fontWeight: '600', fontStyle: 'italic', color: '#000000', textAlign: 'center', flexShrink: 1 },
+  prayerTime: { fontSize: 14, color: '#000000' },
   prayerError: { color: '#cc0000', textAlign: 'center' },
   welcome: { fontSize: 18, marginTop: 4, fontStyle: 'italic' },
   buttonText: { color: '#000000', fontWeight: 'bold', fontStyle: 'italic' },

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { useAudioPlayer, useAudioPlayerStatus, setAudioModeAsync } from 'expo-audio';
 import { useTheme } from '../context/ThemeContext';
@@ -10,12 +10,19 @@ type Surah = {
   name: string;
 };
 
+type Ayah = {
+  number: number;
+  arabic: string;
+};
+
 export default function QuranScreen() {
   const { colors } = useTheme();
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUri, setCurrentUri] = useState<string | null>(null);
   const [currentSurah, setCurrentSurah] = useState<Surah | null>(null);
+  const [ayahs, setAyahs] = useState<Ayah[]>([]);
+  const [loadingText, setLoadingText] = useState(false);
 
   const player = useAudioPlayer(currentUri);
   const status = useAudioPlayerStatus(player);
@@ -40,11 +47,26 @@ export default function QuranScreen() {
     }
   }
 
-  function playSurah(surah: Surah) {
+  async function playSurah(surah: Surah) {
     const paddedNumber = String(surah.number).padStart(3, '0');
     const uri = `https://ia800608.us.archive.org/31/items/alfirdwsiy1433_gmail_46799767979696767967469644696496799201706/${paddedNumber}.mp3`;
     setCurrentUri(uri);
     setCurrentSurah(surah);
+    setAyahs([]);
+    setLoadingText(true);
+    try {
+      const response = await fetch(`https://api.alquran.cloud/v1/surah/${surah.number}/quran-uthmani`);
+      const data = await response.json();
+      const merged = data.data.ayahs.map((a: any) => ({
+        number: a.numberInSurah,
+        arabic: a.text,
+      }));
+      setAyahs(merged);
+    } catch {
+      setAyahs([]);
+    } finally {
+      setLoadingText(false);
+    }
   }
 
   useEffect(() => {
@@ -68,6 +90,18 @@ export default function QuranScreen() {
         </View>
       ) : null}
 
+      {loadingText ? (
+        <ActivityIndicator color="#2e7d32" style={{ marginBottom: 16 }} />
+      ) : ayahs.length > 0 ? (
+        <ScrollView style={styles.ayahList}>
+          {ayahs.map((ayah) => (
+            <View key={ayah.number} style={styles.ayahCard}>
+              <Text style={styles.ayahArabic}>{ayah.number}. {ayah.arabic}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      ) : null}
+
       {loading ? (
         <ActivityIndicator color="#2e7d32" />
       ) : (
@@ -82,7 +116,7 @@ export default function QuranScreen() {
         />
       )}
 
-      <Pressable style={styles.backButton} onPress={() => router.push('/')}>
+      <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
         <Text style={styles.backText}>Back to Home</Text>
       </Pressable>
     </View>
@@ -96,6 +130,9 @@ const styles = StyleSheet.create({
   nowPlayingText: { fontSize: 16, marginBottom: 8 },
   playPauseButton: { backgroundColor: '#2e7d32', paddingVertical: 8, paddingHorizontal: 20, borderRadius: 8 },
   playPauseText: { color: '#ffffff', fontWeight: 'bold' },
+  ayahList: { maxHeight: 250, marginBottom: 16 },
+  ayahCard: { marginBottom: 10, padding: 12, borderRadius: 8, backgroundColor: '#f5f5f5' },
+  ayahArabic: { fontSize: 20, textAlign: 'right', color: '#000000' },
   row: { borderBottomWidth: 1, paddingVertical: 12 },
   rowText: { fontSize: 16 },
   backButton: { marginTop: 16, alignItems: 'center' },

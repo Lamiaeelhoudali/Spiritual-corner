@@ -22,14 +22,17 @@ const styles = {
   justifyContent: 'center',
   alignItems: 'center',
   height: '100vh',
+  paddingBottom: 60,
   backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url(${homeImg})`,
-  backgroundSize: 'cover',
+  backgroundSize: 'contain',
   backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundColor: '#ffffff',
   color: '#ffffff',
 
   },
-  titleEnglish: { fontSize: 32, marginBottom: 4 },
-  titleArabic: { fontSize: 26, marginBottom: 40 },
+  titleEnglish: { fontSize: 32, marginBottom: 4, color: '#ffffff' },
+  titleArabic: { fontSize: 26, marginBottom: 40, color: '#ffffff' },
   button: {
     backgroundColor: '#2e7d32',
     color: '#ffffff',
@@ -39,5 +42,6 @@ const styles = {
     fontSize: 18,
     fontWeight: 'bold',
     cursor: 'pointer',
+    marginTop: 300,
   },
 };
