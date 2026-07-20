@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import dayImg from '../assets/day.jpg';
 import nightImg from '../assets/night.jpg';
+
 function getBackgroundImage() {
   const hour = new Date().getHours();
   return hour >= 6 && hour < 18 ? dayImg : nightImg;
@@ -67,6 +68,7 @@ export default function Dashboard() {
   return (
     <div style={styles.container}>
       <div style={styles.topSection}>
+        <button style={styles.returnButton} onClick={() => navigate('/')}>← Back</button>
         <div style={styles.prayerBox}>
           {loadingPrayers ? (
             <p>Loading...</p>
@@ -93,9 +95,9 @@ export default function Dashboard() {
                   <p style={styles.prayerTime}>{timings.Maghrib}</p>
                 </div>
                 <div style={{ ...styles.prayerItem, borderRight: 'none' }}>
-              <p style={styles.prayerName}>{t('isha')}</p>
-              <p style={styles.prayerTime}>{timings.Isha}</p>
-               </div>
+                  <p style={styles.prayerName}>{t('isha')}</p>
+                  <p style={styles.prayerTime}>{timings.Isha}</p>
+                </div>
               </div>
             </>
           ) : null}
@@ -154,19 +156,20 @@ export default function Dashboard() {
 
 const styles = {
   container: {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  minHeight: '100vh',
-  paddingTop: 60,
-  paddingBottom: 80,
-  backgroundImage: `linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url(${getBackgroundImage()})`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-},
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    minHeight: '100vh',
+    paddingTop: 60,
+    paddingBottom: 80,
+    backgroundImage: `linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url(${getBackgroundImage()})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
   topSection: { width: '100%', maxWidth: 500, display: 'flex', flexDirection: 'column', alignItems: 'center' },
   bottomSection: { width: '100%', maxWidth: 500, display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  returnButton: { alignSelf: 'flex-start', background: 'none', border: 'none', color: '#ffffff', fontWeight: 'bold', fontSize: 16, cursor: 'pointer', marginBottom: 8 },
   prayerBox: { padding: 16, borderRadius: 12, backgroundColor: '#e8dcc8', textAlign: 'center', width: '100%', boxSizing: 'border-box' },
   hijriText: { color: '#08a008', fontWeight: '600', fontStyle: 'italic', margin: '0 0 8px 0', fontSize: 18 },
   prayerRowHorizontal: { display: 'flex', width: '100%' },
