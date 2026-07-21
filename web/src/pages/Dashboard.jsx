@@ -173,7 +173,7 @@ const styles = {
   prayerBox: { padding: 16, borderRadius: 12, backgroundColor: '#e8dcc8', textAlign: 'center', width: '100%', boxSizing: 'border-box' },
   hijriText: { color: '#005f8c', fontWeight: '600', fontStyle: 'italic', margin: '0 0 8px 0', fontSize: 18 },
   prayerRowHorizontal: { display: 'flex', width: '100%' },
-  prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 4 },
+  prayerItem: { flex: 1, alignItems: 'center', borderRight: '2px solid #005f8c', paddingHorizontal: 4 },
   prayerName: { fontSize: 13, fontWeight: '600', fontStyle: 'italic', margin: 0, color: '#000000' },
   prayerTime: { fontSize: 18, margin: 0, color: '#000000' },
   error: { color: '#cc0000' },
