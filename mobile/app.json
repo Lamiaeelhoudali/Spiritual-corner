@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mobile",
-    "slug": "mobile",
+    "slug": "spiritual-corner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,12 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.lamiaeelhoudalisteam.spiritualcorner"
     },
     "web": {
       "output": "static",
@@ -46,13 +51,23 @@
         {
           "icon": "./assets/images/icon.png",
           "color": "#2e7d32",
-          "sounds": ["./assets/sounds/azan.mp3"]
+          "sounds": [
+            "./assets/sounds/azan.mp3"
+          ]
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1fa5d002-3f02-4b77-a881-6072b76680b7"
+      }
+    },
+    "owner": "lamiaeelhoudalis-team"
   }
 }
