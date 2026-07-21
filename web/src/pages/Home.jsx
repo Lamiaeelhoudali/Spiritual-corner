@@ -23,6 +23,7 @@ const styles = {
   alignItems: 'center',
   height: '100vh',
   width: '100%',
+  position: 'relative',
   paddingBottom: 60,
   backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url(${homeImg})`,
   backgroundSize: 'cover',
