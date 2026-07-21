@@ -171,7 +171,7 @@ const styles = {
   bottomSection: { width: '100%', maxWidth: 500, display: 'flex', flexDirection: 'column', alignItems: 'center' },
   returnButton: { alignSelf: 'flex-start', background: 'none', border: 'none', color: '#ffffff', fontWeight: 'bold', fontSize: 16, cursor: 'pointer', marginBottom: 8 },
   prayerBox: { padding: 16, borderRadius: 12, backgroundColor: '#e8dcc8', textAlign: 'center', width: '100%', boxSizing: 'border-box' },
-  hijriText: { color: '#08a008', fontWeight: '600', fontStyle: 'italic', margin: '0 0 8px 0', fontSize: 18 },
+  hijriText: { color: '#005f8c', fontWeight: '600', fontStyle: 'italic', margin: '0 0 8px 0', fontSize: 18 },
   prayerRowHorizontal: { display: 'flex', width: '100%' },
   prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 4 },
   prayerName: { fontSize: 13, fontWeight: '600', fontStyle: 'italic', margin: 0, color: '#000000' },
@@ -183,7 +183,7 @@ const styles = {
   menuItem: { padding: 14, borderBottom: '1px solid rgba(0,0,0,0.1)', cursor: 'pointer' },
   menuItemText: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', margin: 0 },
   langOptions: { display: 'flex', gap: 16, marginTop: 6 },
-  langOption: { fontSize: 14, color: '#888888', cursor: 'pointer' },
-  langOptionActive: { color: '#2e7d32', fontWeight: 'bold' },
+  langOption: { fontSize: 14, color: '#000000', cursor: 'pointer' },
+  langOptionActive: { color: '#005f8c', fontWeight: 'bold' },
   welcome: { fontSize: 24, fontStyle: 'italic', marginTop: 4, color: '#000000', fontWeight: 'bold' },
 };
