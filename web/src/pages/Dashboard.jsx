@@ -185,5 +185,5 @@ const styles = {
   langOptions: { display: 'flex', gap: 16, marginTop: 6 },
   langOption: { fontSize: 14, color: '#000000', cursor: 'pointer' },
   langOptionActive: { color: '#005f8c', fontWeight: 'bold' },
-  welcome: { fontSize: 24, fontStyle: 'italic', marginTop: 4, color: '#000000', fontWeight: 'bold' },
+  welcome: { fontSize: 24, fontStyle: 'italic', marginTop: 4, color: '#ffffff', fontWeight: 'bold' },
 };
