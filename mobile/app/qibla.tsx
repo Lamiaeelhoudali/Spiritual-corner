@@ -69,7 +69,6 @@ export default function QiblaScreen() {
     <ImageBackground source={colors.backgroundImage} style={styles.container} resizeMode="cover">
       <View style={[styles.overlay, { backgroundColor: colors.card }]}>
         <Text style={[styles.title, { color: colors.text }]}>Qibla Direction</Text>
-
         {error ? (
           <Text style={styles.error}>{error}</Text>
         ) : qiblaBearing === null ? (
@@ -82,15 +81,13 @@ export default function QiblaScreen() {
             <Text style={[styles.bearingText, { color: colors.text }]}>
               {Math.round(qiblaBearing)}° from North
             </Text>
-            <Text style={{ color: colors.text, fontSize: 12 }}>Debug heading: {Math.round(heading)}°</Text>
             <Text style={[styles.hint, { color: colors.text }]}>
               Hold your phone flat. The arrow points toward the Kaaba.
             </Text>
           </>
         )}
-
         <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
-          <Text style={styles.backText}>Back to Dashboard</Text>
+          <Text style={styles.backText}>Back to Home</Text>
         </Pressable>
       </View>
     </ImageBackground>
@@ -107,14 +104,14 @@ const styles = StyleSheet.create({
     height: 220,
     borderRadius: 110,
     borderWidth: 3,
-    borderColor: '#2e7d32',
+    borderColor: '#005f8c',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
   },
-  arrow: { fontSize: 100, color: '#2e7d32' },
+  arrow: { fontSize: 100, color: '#005f8c' },
   bearingText: { fontSize: 20, fontWeight: 'bold', marginBottom: 12 },
   hint: { textAlign: 'center', marginBottom: 20 },
   backButton: { marginTop: 12, alignItems: 'center' },
-  backText: { color: '#2e7d32', fontWeight: '600' },
+  backText: { color: '#005f8c', fontWeight: '600' },
 });

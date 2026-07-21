@@ -71,7 +71,7 @@ export default function TrackerScreen() {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>Today's Prayers</Text>
       {loading ? (
-        <ActivityIndicator color="#2e7d32" />
+        <ActivityIndicator color="#005f8c" />
       ) : error ? (
         <Text style={styles.error}>{error}</Text>
       ) : prayers ? (
@@ -86,7 +86,7 @@ export default function TrackerScreen() {
           </Pressable>
         ))
       ) : null}
-        <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
+      <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
         <Text style={styles.backText}>Back to Home</Text>
       </Pressable>
     </View>
@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   error: { color: '#cc0000', textAlign: 'center' },
   row: { borderWidth: 1, borderRadius: 8, padding: 14, marginBottom: 10 },
-  rowDone: { backgroundColor: '#e8f5e9', borderColor: '#2e7d32' },
+  rowDone: { backgroundColor: '#e8f5e9', borderColor: '#005f8c' },
   rowText: { fontSize: 18 },
   backButton: { marginTop: 20, alignItems: 'center' },
-  backText: { color: '#2e7d32', fontWeight: '600' },
+  backText: { color: '#005f8c', fontWeight: '600' },
 });

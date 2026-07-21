@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24 },
   count: { fontSize: 72, fontWeight: 'bold', marginBottom: 40 },
-  button: { backgroundColor: '#2e7d32', paddingVertical: 24, paddingHorizontal: 48, borderRadius: 100 },
+  button: { backgroundColor: '#005f8c', paddingVertical: 24, paddingHorizontal: 48, borderRadius: 100 },
   buttonText: { color: '#ffffff', fontWeight: 'bold', fontSize: 18 },
   resetButton: { marginTop: 20, padding: 10 },
   resetText: { color: '#999999', fontWeight: '600' },
   backButton: { marginTop: 30, alignItems: 'center' },
-  backText: { color: '#2e7d32', fontWeight: '600' },
+  backText: { color: '#005f8c', fontWeight: '600' },
 });

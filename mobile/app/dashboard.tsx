@@ -110,11 +110,12 @@ export default function DashboardScreen() {
   return (
     <ImageBackground source={colors.backgroundImage} style={styles.container} resizeMode="cover">
       <ScrollView contentContainerStyle={styles.overlay}>
-      <View style={styles.topSection}>
-  <Pressable style={styles.returnButton} onPress={() => router.push('/')}>
-    <Text style={styles.returnText}>← Back</Text>
-  </Pressable>
-  <View style={styles.prayerBox}>
+        <View style={styles.topSection}>
+          <Pressable style={styles.returnButton} onPress={() => router.push('/')}>
+            <Text style={styles.returnText}>← Back</Text>
+          </Pressable>
+
+          <View style={styles.prayerBox}>
             {loadingPrayers ? (
               <ActivityIndicator color="#2e7d32" />
             ) : prayerError ? (
@@ -165,7 +166,7 @@ export default function DashboardScreen() {
           {menuOpen ? (
             <View style={[styles.menu, { backgroundColor: colors.card }]}>
               <View style={styles.menuItem}>
-                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('language') || 'Language'}</Text>
+                <Text style={styles.menuItemText}>{t('language') || 'Language'}</Text>
                 <View style={styles.langOptions}>
                   <Pressable onPress={() => i18n.changeLanguage('en')}>
                     <Text style={[styles.langOption, i18n.language === 'en' && styles.langOptionActive]}>English</Text>
@@ -176,19 +177,19 @@ export default function DashboardScreen() {
                 </View>
               </View>
               <Pressable style={styles.menuItem} onPress={() => router.push('/journal')}>
-                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('myJournal')}</Text>
+                <Text style={styles.menuItemText}>{t('myJournal')}</Text>
               </Pressable>
               <Pressable style={styles.menuItem} onPress={() => router.push('/tracker')}>
-                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('prayerTracker')}</Text>
+                <Text style={styles.menuItemText}>{t('prayerTracker')}</Text>
               </Pressable>
               <Pressable style={styles.menuItem} onPress={() => router.push('/tasbeeh')}>
-                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('tasbeeh')}</Text>
+                <Text style={styles.menuItemText}>{t('tasbeeh')}</Text>
               </Pressable>
               <Pressable style={styles.menuItem} onPress={() => router.push('/adkar')}>
-                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('adkar')}</Text>
+                <Text style={styles.menuItemText}>{t('adkar')}</Text>
               </Pressable>
               <Pressable style={styles.menuItem} onPress={() => router.push('/avatar')}>
-                <Text style={[styles.menuItemText, { color: colors.text }]}>{t('avatar')}</Text>
+                <Text style={styles.menuItemText}>{t('avatar')}</Text>
               </Pressable>
             </View>
           ) : null}
@@ -207,23 +208,23 @@ const styles = StyleSheet.create({
   overlay: { flexGrow: 1, backgroundColor: 'rgba(0,0,0,0.15)', justifyContent: 'space-between', alignItems: 'center', padding: 24, paddingTop: 60 },
   topSection: { width: '100%', alignItems: 'center' },
   bottomSection: { width: '100%', alignItems: 'center' },
+  returnButton: { alignSelf: 'flex-start', marginBottom: 8 },
+  returnText: { color: '#005f8c', fontWeight: 'bold', fontSize: 18 },
   prayerBox: { marginBottom: 24, alignItems: 'center', padding: 16, borderRadius: 12, width: '100%', backgroundColor: 'rgba(232, 220, 200, 0.75)' },
   hijriText: { fontSize: 18, color: '#005f8c', fontWeight: '600', fontStyle: 'italic', marginBottom: 8 },
   prayerRowHorizontal: { flexDirection: 'row', width: '100%' },
-  prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 2 },
+  prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: '#005f8c', paddingHorizontal: 2 },
   prayerName: { fontSize: 11, fontWeight: '600', fontStyle: 'italic', color: '#000000', textAlign: 'center', flexShrink: 1 },
   prayerTime: { fontSize: 14, color: '#000000' },
   prayerError: { color: '#cc0000', textAlign: 'center' },
   welcome: { fontSize: 18, marginTop: 4, fontStyle: 'italic' },
-  buttonText: { color: '#000000', fontWeight: 'bold', fontStyle: 'italic' },
+  buttonText: { color: '#005f8c', fontWeight: 'bold', fontStyle: 'italic' },
   menu: { width: '100%', borderRadius: 12, padding: 8, marginBottom: 16 },
   menuItem: { padding: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.1)' },
-  menuItemText: { fontSize: 16, fontWeight: '600', fontStyle: 'italic' },
+  menuItemText: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', color: '#005f8c' },
   actionRow: { flexDirection: 'row', width: '100%', borderRadius: 12, padding: 8, marginBottom: 4, gap: 8 },
   actionButton: { flex: 1, backgroundColor: '#e8dcc8', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
   langOptions: { flexDirection: 'row', gap: 16, marginTop: 6 },
-  langOption: { fontSize: 14, color: '#000000' },
+  langOption: { fontSize: 14, color: '#000000', fontWeight: '600' },
   langOptionActive: { color: '#005f8c', fontWeight: 'bold' },
-  returnButton: { alignSelf: 'flex-start', marginBottom: 8 },
-returnText: { color: '#ffffff', fontWeight: 'bold', fontSize: 18 },
 });

@@ -56,7 +56,6 @@ export default function NewEntryScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>New Entry</Text>
-
       <TextInput
         style={[styles.input, { color: colors.text, borderColor: colors.border }]}
         placeholder="Title"
@@ -64,7 +63,6 @@ export default function NewEntryScreen() {
         value={title}
         onChangeText={setTitle}
       />
-
       <TextInput
         style={[styles.input, styles.textArea, { color: colors.text, borderColor: colors.border }]}
         placeholder="Write your thoughts..."
@@ -73,13 +71,11 @@ export default function NewEntryScreen() {
         value={content}
         onChangeText={setContent}
       />
-
       <Pressable
         style={[styles.toggleButton, isLocked ? styles.toggleOn : styles.toggleOff]}
         onPress={() => setIsLocked((prev) => !prev)}>
         <Text style={styles.toggleText}>{isLocked ? '🔒 Locked Entry: ON' : '🔓 Locked Entry: OFF'}</Text>
       </Pressable>
-
       {isLocked ? (
         <TextInput
           style={[styles.input, { color: colors.text, borderColor: colors.border }]}
@@ -91,7 +87,6 @@ export default function NewEntryScreen() {
           secureTextEntry
         />
       ) : null}
-
       <Pressable style={[styles.button, loading && styles.buttonDisabled]} onPress={handleSave} disabled={loading}>
         <Text style={styles.buttonText}>{loading ? 'Saving...' : 'Save Entry'}</Text>
       </Pressable>
@@ -108,7 +103,7 @@ const styles = StyleSheet.create({
   toggleOn: { backgroundColor: '#6a1b9a' },
   toggleOff: { backgroundColor: '#888888' },
   toggleText: { color: '#ffffff', fontWeight: 'bold' },
-  button: { backgroundColor: '#2e7d32', padding: 14, borderRadius: 8, alignItems: 'center', marginTop: 4 },
+  button: { backgroundColor: '#005f8c', padding: 14, borderRadius: 8, alignItems: 'center', marginTop: 4 },
   buttonDisabled: { backgroundColor: '#9e9e9e' },
   buttonText: { color: '#ffffff', fontWeight: 'bold' },
 });

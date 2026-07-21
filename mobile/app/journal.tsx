@@ -3,6 +3,7 @@ import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../context/ThemeContext';
+
 type Entry = {
   id: string;
   title: string;
@@ -26,12 +27,11 @@ export default function JournalScreen() {
     setLoading(true);
     setError('');
     try {
-     const token = await SecureStore.getItemAsync('token');
-    console.log('Journal check - token found:', token ? 'YES' : 'NO');
-    if (!token) {
-    router.replace('/login?redirect=/journal');
-    return;
-    }
+      const token = await SecureStore.getItemAsync('token');
+      if (!token) {
+        router.replace('/login?redirect=/journal');
+        return;
+      }
       const response = await fetch('https://spiritual-corner.onrender.com/journal', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -49,11 +49,12 @@ export default function JournalScreen() {
       setLoading(false);
     }
   }
+
   async function handleLogout() {
-  await SecureStore.deleteItemAsync('token');
-  await SecureStore.deleteItemAsync('name');
-  router.replace('/dashboard');
-}
+    await SecureStore.deleteItemAsync('token');
+    await SecureStore.deleteItemAsync('name');
+    router.replace('/dashboard');
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -62,8 +63,8 @@ export default function JournalScreen() {
         <Text style={styles.addButtonText}>+ New Entry</Text>
       </Pressable>
       <Pressable style={styles.logoutButton} onPress={handleLogout}>
-     <Text style={styles.addButtonText}>Log Out</Text>
-     </Pressable>
+        <Text style={styles.addButtonText}>Log Out</Text>
+      </Pressable>
       {loading ? (
         <Text style={{ color: colors.text, textAlign: 'center', marginTop: 40 }}>Loading...</Text>
       ) : error ? (
@@ -98,12 +99,12 @@ export default function JournalScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 24, paddingTop: 80 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  addButton: { backgroundColor: '#2e7d32', padding: 12, borderRadius: 8, marginBottom: 16, alignItems: 'center' },
+  addButton: { backgroundColor: '#005f8c', padding: 12, borderRadius: 8, marginBottom: 16, alignItems: 'center' },
   addButtonText: { color: '#ffffff', fontWeight: 'bold' },
   error: { color: '#cc0000', textAlign: 'center', marginTop: 40 },
   entry: { borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12 },
   entryTitle: { fontWeight: 'bold', fontSize: 16, marginBottom: 4 },
   backButton: { marginTop: 16, alignItems: 'center' },
-  backText: { color: '#2e7d32', fontWeight: '600' },
+  backText: { color: '#005f8c', fontWeight: '600' },
   logoutButton: { backgroundColor: '#999999', padding: 12, borderRadius: 8, marginBottom: 16, alignItems: 'center' },
 });

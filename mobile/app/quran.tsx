@@ -78,7 +78,6 @@ export default function QuranScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>Quran</Text>
-
       {currentSurah ? (
         <View style={[styles.nowPlaying, { backgroundColor: colors.card }]}>
           <Text style={[styles.nowPlayingText, { color: colors.text }]}>Playing: {currentSurah.englishName}</Text>
@@ -89,9 +88,8 @@ export default function QuranScreen() {
           </Pressable>
         </View>
       ) : null}
-
       {loadingText ? (
-        <ActivityIndicator color="#2e7d32" style={{ marginBottom: 16 }} />
+        <ActivityIndicator color="#005f8c" style={{ marginBottom: 16 }} />
       ) : ayahs.length > 0 ? (
         <ScrollView style={styles.ayahList}>
           {ayahs.map((ayah) => (
@@ -101,9 +99,8 @@ export default function QuranScreen() {
           ))}
         </ScrollView>
       ) : null}
-
       {loading ? (
-        <ActivityIndicator color="#2e7d32" />
+        <ActivityIndicator color="#005f8c" />
       ) : (
         <FlatList
           data={surahs}
@@ -115,7 +112,6 @@ export default function QuranScreen() {
           )}
         />
       )}
-
       <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
         <Text style={styles.backText}>Back to Home</Text>
       </Pressable>
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   nowPlaying: { borderRadius: 8, padding: 12, marginBottom: 16, alignItems: 'center' },
   nowPlayingText: { fontSize: 16, marginBottom: 8 },
-  playPauseButton: { backgroundColor: '#2e7d32', paddingVertical: 8, paddingHorizontal: 20, borderRadius: 8 },
+  playPauseButton: { backgroundColor: '#005f8c', paddingVertical: 8, paddingHorizontal: 20, borderRadius: 8 },
   playPauseText: { color: '#ffffff', fontWeight: 'bold' },
   ayahList: { maxHeight: 250, marginBottom: 16 },
   ayahCard: { marginBottom: 10, padding: 12, borderRadius: 8, backgroundColor: '#f5f5f5' },
@@ -136,5 +132,5 @@ const styles = StyleSheet.create({
   row: { borderBottomWidth: 1, paddingVertical: 12 },
   rowText: { fontSize: 16 },
   backButton: { marginTop: 16, alignItems: 'center' },
-  backText: { color: '#2e7d32', fontWeight: '600' },
+  backText: { color: '#005f8c', fontWeight: '600' },
 });
