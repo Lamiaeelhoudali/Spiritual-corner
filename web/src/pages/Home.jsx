@@ -24,10 +24,8 @@ const styles = {
   height: '100vh',
   paddingBottom: 60,
   backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url(${homeImg})`,
-  backgroundSize: 'contain',
+  backgroundSize: 'cover',
   backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundColor: '#ffffff',
   color: '#ffffff',
 
   },

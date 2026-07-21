@@ -110,8 +110,11 @@ export default function DashboardScreen() {
   return (
     <ImageBackground source={colors.backgroundImage} style={styles.container} resizeMode="cover">
       <ScrollView contentContainerStyle={styles.overlay}>
-        <View style={styles.topSection}>
-          <View style={styles.prayerBox}>
+      <View style={styles.topSection}>
+  <Pressable style={styles.returnButton} onPress={() => router.push('/')}>
+    <Text style={styles.returnText}>← Back</Text>
+  </Pressable>
+  <View style={styles.prayerBox}>
             {loadingPrayers ? (
               <ActivityIndicator color="#2e7d32" />
             ) : prayerError ? (
@@ -204,7 +207,7 @@ const styles = StyleSheet.create({
   overlay: { flexGrow: 1, backgroundColor: 'rgba(0,0,0,0.15)', justifyContent: 'space-between', alignItems: 'center', padding: 24, paddingTop: 60 },
   topSection: { width: '100%', alignItems: 'center' },
   bottomSection: { width: '100%', alignItems: 'center' },
-  prayerBox: { marginBottom: 24, alignItems: 'center', padding: 16, borderRadius: 12, width: '100%', backgroundColor: '#e8dcc8' },
+  prayerBox: { marginBottom: 24, alignItems: 'center', padding: 16, borderRadius: 12, width: '100%', backgroundColor: 'rgba(232, 220, 200, 0.75)' },
   hijriText: { fontSize: 18, color: '#2e7d32', fontWeight: '600', fontStyle: 'italic', marginBottom: 8 },
   prayerRowHorizontal: { flexDirection: 'row', width: '100%' },
   prayerItem: { flex: 1, alignItems: 'center', borderRightWidth: 2, borderRightColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 2 },
@@ -221,4 +224,6 @@ const styles = StyleSheet.create({
   langOptions: { flexDirection: 'row', gap: 16, marginTop: 6 },
   langOption: { fontSize: 14, color: '#888888' },
   langOptionActive: { color: '#2e7d32', fontWeight: 'bold' },
+  returnButton: { alignSelf: 'flex-start', marginBottom: 8 },
+returnText: { color: '#ffffff', fontWeight: 'bold', fontSize: 18 },
 });
