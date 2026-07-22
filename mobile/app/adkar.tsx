@@ -80,7 +80,7 @@ export default function AdkarScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, paddingTop: 60 },
+  container: { flex: 1, padding: 24, paddingTop: 60, paddingBottom: 40 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   categoryBlock: { marginBottom: 20 },
   categoryTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8, color: '#005f8c' },
@@ -88,6 +88,6 @@ const styles = StyleSheet.create({
   label: { fontSize: 16, fontWeight: '600', color: '#005f8c' },
   arabic: { fontSize: 20, textAlign: 'right', marginTop: 10, marginBottom: 8 },
   translation: { fontSize: 14 },
-  backButton: { marginTop: 20, marginBottom: 40, alignItems: 'center' },
+  backButton: { marginTop: 20, marginBottom: 100, alignItems: 'center' },
   backText: { color: '#005f8c', fontWeight: '600' },
 });

@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayImg from '../assets/day.jpg';
+import nightImg from '../assets/night.jpg';
 
 const KAABA_LAT = 21.4225;
 const KAABA_LNG = 39.8262;
+
+function getBackgroundImage() {
+  const hour = new Date().getHours();
+  return hour >= 6 && hour < 18 ? dayImg : nightImg;
+}
 
 function toRadians(deg) {
   return (deg * Math.PI) / 180;
@@ -16,10 +23,8 @@ function calculateQiblaBearing(lat, lng) {
   const phi1 = toRadians(lat);
   const phi2 = toRadians(KAABA_LAT);
   const deltaLambda = toRadians(KAABA_LNG - lng);
-
   const y = Math.sin(deltaLambda) * Math.cos(phi2);
   const x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(deltaLambda);
-
   const theta = Math.atan2(y, x);
   return (toDegrees(theta) + 360) % 360;
 }
@@ -46,7 +51,6 @@ export default function Qibla() {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Qibla Direction</h1>
-
       {error ? (
         <p style={styles.error}>{error}</p>
       ) : bearing === null ? (
@@ -62,14 +66,22 @@ export default function Qibla() {
           </p>
         </>
       )}
-
       <button style={styles.backButton} onClick={() => navigate('/dashboard')}>Back to Home</button>
     </div>
   );
 }
 
 const styles = {
-  container: { padding: 24, paddingTop: 80, maxWidth: 500, margin: '0 auto', textAlign: 'center' },
+  container: {
+    padding: 24,
+    paddingTop: 80,
+    minHeight: '100vh',
+    textAlign: 'center',
+    backgroundImage: `linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url(${getBackgroundImage()})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    boxSizing: 'border-box',
+  },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24 },
   error: { color: '#cc0000' },
   arrowCircle: { width: 220, height: 220, borderRadius: '50%', border: '3px solid #005f8c', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0 auto 20px' },
