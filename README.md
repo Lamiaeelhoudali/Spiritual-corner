@@ -1,15 +1,19 @@
 ## Usage
 
-1. Register an account (or log in if you already have one)
+1. Register an account (or log in if you already have one ["only for journal and prayer tracker"])
 2. From the Dashboard, view live prayer times and the Hijri date
-3. Use Qibla, Quran, Tracker, Journal, Tasbeeh, and Adkar from the main buttons and the "☰ More" menu
+3. Use Qibla, Quran, prayer Tracker, Journal, Tasbeeh, and Adkar from the main buttons and the "☰ More" menu
 4. Toggle the interface language (English/French) from the "☰ More" menu
 5. Allow notification permission to receive local Azan alerts at prayer time
 
 ## Live Links
 
+- ## Live Links
+
 - Backend API: https://spiritual-corner.onrender.com
 - Web app: https://spiritual-corner-web.onrender.com
+- Android APK: https://expo.dev/artifacts/eas/510BlFi1vnGO1cAW9--awlOy9C_8sqAQm_cNKV0g8fI.apk
+
 
 ## References & Tools Used
 
@@ -67,8 +71,6 @@
 - **Quran audio recitation:** Abdel Rahman Benmoussa (Warsh style)
 - **Azan notification sound:** short takbir clip, Internet Archive Community Audio collection
 - **Background photography:** [Pexels](https://www.pexels.com/) and [Unsplash](https://unsplash.com/), individual photographers credited in project asset notes
-
-## Future Improvements
 
 ## Future Improvements
 
