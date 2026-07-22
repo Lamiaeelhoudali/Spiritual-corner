@@ -72,9 +72,7 @@ export default function AdkarScreen() {
           })}
         </View>
       ))}
-      <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
-        <Text style={styles.backText}>Back to Home</Text>
-      </Pressable>
+      
     </ScrollView>
   );
 }
