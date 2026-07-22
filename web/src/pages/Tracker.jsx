@@ -83,6 +83,6 @@ const styles = {
   error: { color: '#cc0000', textAlign: 'center' },
   row: { display: 'flex', alignItems: 'center', border: '1px solid #dddddd', borderRadius: 8, padding: 14, marginBottom: 10, cursor: 'pointer', fontSize: 18 },
   checkbox: { display: 'inline-block', width: 28, textAlign: 'center', marginRight: 8 },
-  rowDone: { backgroundColor: '#e8f5e9', borderColor: '#2e7d32' },
-  backButton: { marginTop: 20, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  rowDone: { backgroundColor: '#e8f5e9', borderColor: '#005f8c' },
+  backButton: { marginTop: 20, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

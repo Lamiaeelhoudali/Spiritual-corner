@@ -113,5 +113,5 @@ const styles = StyleSheet.create({
   bearingText: { fontSize: 20, fontWeight: 'bold', marginBottom: 12 },
   hint: { textAlign: 'center', marginBottom: 20 },
   backButton: { marginTop: 12, alignItems: 'center' },
-  backText: { color: '#005f8c', fontWeight: '600' },
+  backText: { color: '#fdfdfd', fontWeight: '600' },
 });

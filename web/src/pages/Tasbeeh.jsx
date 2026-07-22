@@ -22,7 +22,7 @@ const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 60, minHeight: '100vh' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24 },
   count: { fontSize: 72, fontWeight: 'bold', marginBottom: 40 },
-  button: { backgroundColor: '#2e7d32', color: '#ffffff', padding: '24px 48px', borderRadius: 100, border: 'none', fontWeight: 'bold', fontSize: 18, cursor: 'pointer' },
+  button: { backgroundColor: '#005f8c', color: '#ffffff', padding: '24px 48px', borderRadius: 100, border: 'none', fontWeight: 'bold', fontSize: 18, cursor: 'pointer' },
   resetButton: { marginTop: 20, background: 'none', border: 'none', color: '#999999', fontWeight: '600', cursor: 'pointer' },
-  backButton: { marginTop: 30, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  backButton: { marginTop: 30, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

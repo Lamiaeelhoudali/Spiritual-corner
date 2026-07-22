@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: 'bold', marginBottom: 24, textAlign: 'center' },
   input: { borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12 },
   error: { color: '#cc0000', marginBottom: 12, textAlign: 'center' },
-  success: { color: '#2e7d32', marginBottom: 12, textAlign: 'center' },
-  button: { backgroundColor: '#2e7d32', padding: 14, borderRadius: 8, alignItems: 'center', marginBottom: 14 },
+  success: { color: '#005f8c', marginBottom: 12, textAlign: 'center' },
+  button: { backgroundColor: '#005f8c', padding: 14, borderRadius: 8, alignItems: 'center', marginBottom: 14 },
   buttonText: { color: '#ffffff', fontWeight: 'bold' },
-  link: { color: '#2e7d32', textAlign: 'center', fontWeight: '600' },
+  link: { color: '#005f8c', textAlign: 'center', fontWeight: '600' },
 });

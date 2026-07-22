@@ -77,7 +77,7 @@ const styles = {
   form: { display: 'flex', flexDirection: 'column', width: 300 },
   input: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, fontSize: 16 },
   error: { color: '#cc0000', textAlign: 'center' },
-  success: { color: '#2e7d32', textAlign: 'center' },
-  button: { backgroundColor: '#2e7d32', color: '#ffffff', padding: 14, borderRadius: 8, border: 'none', fontWeight: 'bold', fontSize: 16, cursor: 'pointer' },
-  link: { color: '#2e7d32', fontWeight: '600', marginTop: 14, textDecoration: 'none' },
+  success: { color: '#005f8c', textAlign: 'center' },
+  button: { backgroundColor: '#005f8c', color: '#ffffff', padding: 14, borderRadius: 8, border: 'none', fontWeight: 'bold', fontSize: 16, cursor: 'pointer' },
+  link: { color: '#005f8c', fontWeight: '600', marginTop: 14, textDecoration: 'none' },
 };

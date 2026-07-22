@@ -76,10 +76,10 @@ const styles = {
   container: { padding: 24, paddingTop: 60, maxWidth: 600, margin: '0 auto' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   categoryBlock: { marginBottom: 20 },
-  categoryTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8, color: '#2e7d32' },
-  card: { backgroundColor: '#f5f5f5', border: '1px solid #2e7d32', borderRadius: 12, padding: 16, marginBottom: 12, cursor: 'pointer' },
+  categoryTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8, color: '#005f8c' },
+  card: { backgroundColor: '#f5f5f5', border: '1px solid #005f8c', borderRadius: 12, padding: 16, marginBottom: 12, cursor: 'pointer' },
   label: { fontWeight: '600', margin: 0, color: '#000000' },
   arabic: { fontSize: 20, textAlign: 'right', marginTop: 10, marginBottom: 8, color: '#000000' },
   translation: { fontSize: 14, color: '#000000' },
-  backButton: { marginTop: 20, marginBottom: 40, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  backButton: { marginTop: 20, marginBottom: 40, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

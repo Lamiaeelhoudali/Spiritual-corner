@@ -72,9 +72,9 @@ const styles = {
   container: { padding: 24, paddingTop: 80, maxWidth: 500, margin: '0 auto', textAlign: 'center' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24 },
   error: { color: '#cc0000' },
-  arrowCircle: { width: 220, height: 220, borderRadius: '50%', border: '3px solid #2e7d32', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0 auto 20px' },
-  arrow: { fontSize: 100, color: '#2e7d32' },
+  arrowCircle: { width: 220, height: 220, borderRadius: '50%', border: '3px solid #005f8c', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0 auto 20px' },
+  arrow: { fontSize: 100, color: '#005f8c' },
   bearingText: { fontSize: 20, fontWeight: 'bold', marginBottom: 12 },
   hint: { marginBottom: 20 },
-  backButton: { marginTop: 12, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  backButton: { marginTop: 12, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

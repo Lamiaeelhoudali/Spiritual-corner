@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTheme } from '../context/ThemeContext';
-import { useLocalSearchParams } from 'expo-router';
+
 
 export default function LoginScreen() {
   const { colors } = useTheme();
@@ -26,7 +26,7 @@ export default function LoginScreen() {
       }
       await SecureStore.setItemAsync('token', data.token);
       await SecureStore.setItemAsync('name', data.name);
-      router.replace(redirect || '/dashboard');
+      router.replace((redirect || '/dashboard') as any);
     } catch (err) {
       setError('Could not connect to server');
     }
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: 'bold', marginBottom: 24, textAlign: 'center' },
   input: { borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12 },
   error: { color: '#cc0000', marginBottom: 12, textAlign: 'center' },
-  button: { backgroundColor: '#2e7d32', padding: 14, borderRadius: 8, alignItems: 'center' },
+  button: { backgroundColor: '#005f8c', padding: 14, borderRadius: 8, alignItems: 'center' },
   buttonText: { color: '#ffffff', fontWeight: 'bold' },
-  link: { color: '#2e7d32', textAlign: 'center', fontWeight: '600', marginTop: 14 },
+  link: { color: '#005f8c', textAlign: 'center', fontWeight: '600', marginTop: 14 },
 });

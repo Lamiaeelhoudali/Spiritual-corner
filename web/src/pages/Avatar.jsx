@@ -43,6 +43,6 @@ const styles = {
   currentAvatar: { fontSize: 80, marginBottom: 30 },
   grid: { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 30, maxWidth: 300 },
   avatarButton: { width: 70, height: 70, borderRadius: '50%', border: '2px solid #dddddd', fontSize: 32, backgroundColor: '#ffffff', cursor: 'pointer' },
-  selected: { borderColor: '#2e7d32', borderWidth: 3 },
-  backButton: { marginTop: 20, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  selected: { borderColor: '#005f8c', borderWidth: 3 },
+  backButton: { marginTop: 20, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

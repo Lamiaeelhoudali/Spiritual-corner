@@ -70,6 +70,6 @@ const styles = {
   input: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, fontSize: 16 },
   error: { color: '#cc0000', textAlign: 'center' },
   content: { backgroundColor: '#f3f3f3', borderRadius: 8, padding: 12, marginBottom: 12 },
-  button: { backgroundColor: '#2e7d32', color: '#ffffff', padding: 12, borderRadius: 8, border: 'none', fontWeight: 'bold', cursor: 'pointer' },
-  backButton: { marginTop: 12, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  button: { backgroundColor: '#005f8c', color: '#ffffff', padding: 12, borderRadius: 8, border: 'none', fontWeight: 'bold', cursor: 'pointer' },
+  backButton: { marginTop: 12, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

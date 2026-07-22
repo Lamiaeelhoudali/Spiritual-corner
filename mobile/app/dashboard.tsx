@@ -117,7 +117,7 @@ export default function DashboardScreen() {
 
           <View style={styles.prayerBox}>
             {loadingPrayers ? (
-              <ActivityIndicator color="#2e7d32" />
+              <ActivityIndicator color="#005f8c" />
             ) : prayerError ? (
               <Text style={styles.prayerError}>{prayerError}</Text>
             ) : timings ? (
@@ -164,9 +164,9 @@ export default function DashboardScreen() {
           </View>
 
           {menuOpen ? (
-            <View style={[styles.menu, { backgroundColor: colors.card }]}>
+              <View style={styles.menu}>
               <View style={styles.menuItem}>
-                <Text style={styles.menuItemText}>{t('language') || 'Language'}</Text>
+                <Text style={styles.languageLabel}>{t('language') || 'Language'}</Text>
                 <View style={styles.langOptions}>
                   <Pressable onPress={() => i18n.changeLanguage('en')}>
                     <Text style={[styles.langOption, i18n.language === 'en' && styles.langOptionActive]}>English</Text>
@@ -219,9 +219,10 @@ const styles = StyleSheet.create({
   prayerError: { color: '#cc0000', textAlign: 'center' },
   welcome: { fontSize: 18, marginTop: 4, fontStyle: 'italic' },
   buttonText: { color: '#005f8c', fontWeight: 'bold', fontStyle: 'italic' },
-  menu: { width: '100%', borderRadius: 12, padding: 8, marginBottom: 16 },
-  menuItem: { padding: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.1)' },
-  menuItemText: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', color: '#005f8c' },
+  menu: { width: '100%', borderRadius: 12, padding: 8, marginBottom: 16, backgroundColor: 'rgba(208, 195, 174, 0.85)' },
+  menuItem: { padding: 14, borderWidth: 1, borderColor: '#005f8c', borderRadius: 8, marginBottom: 6 },
+  menuItemText: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', color: '#090909' },
+  languageLabel: { fontSize: 16, fontWeight: '600', fontStyle: 'italic', color: '#000000' },
   actionRow: { flexDirection: 'row', width: '100%', borderRadius: 12, padding: 8, marginBottom: 4, gap: 8 },
   actionButton: { flex: 1, backgroundColor: '#e8dcc8', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
   langOptions: { flexDirection: 'row', gap: 16, marginTop: 6 },

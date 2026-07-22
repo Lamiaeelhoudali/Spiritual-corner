@@ -77,10 +77,10 @@ export default function Journal() {
 const styles = {
   container: { padding: 24, paddingTop: 80, maxWidth: 600, margin: '0 auto' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  addButton: { display: 'inline-block', backgroundColor: '#2e7d32', color: '#ffffff', padding: 12, borderRadius: 8, marginBottom: 16, textAlign: 'center', textDecoration: 'none', width: '100%', boxSizing: 'border-box' },
+  addButton: { display: 'inline-block', backgroundColor: '#005f8c', color: '#ffffff', padding: 12, borderRadius: 8, marginBottom: 16, textAlign: 'center', textDecoration: 'none', width: '100%', boxSizing: 'border-box' },
   logoutButton: { backgroundColor: '#999999', color: '#ffffff', padding: 12, borderRadius: 8, border: 'none', marginBottom: 16, width: '100%', cursor: 'pointer' },
   error: { color: '#cc0000', textAlign: 'center' },
   entry: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, cursor: 'pointer' },
   entryTitle: { fontWeight: 'bold', marginBottom: 4 },
-  backButton: { marginTop: 16, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  backButton: { marginTop: 16, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

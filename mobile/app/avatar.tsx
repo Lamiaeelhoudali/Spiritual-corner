@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
   currentAvatar: { fontSize: 80, marginBottom: 30 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 30 },
   avatarButton: { width: 70, height: 70, borderRadius: 35, borderWidth: 2, justifyContent: 'center', alignItems: 'center' },
-  selected: { borderColor: '#2e7d32', borderWidth: 3 },
+  selected: { borderColor: '#005f8c', borderWidth: 3 },
   avatarEmoji: { fontSize: 32 },
   backButton: { marginTop: 20, alignItems: 'center' },
-  backText: { color: '#2e7d32', fontWeight: '600' },
+  backText: { color: '#005f8c', fontWeight: '600' },
 });

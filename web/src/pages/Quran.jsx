@@ -112,11 +112,11 @@ const styles = {
   container: { padding: 24, paddingTop: 80, maxWidth: 500, margin: '0 auto' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   nowPlaying: { backgroundColor: '#e8f5e9', borderRadius: 8, padding: 12, marginBottom: 16, textAlign: 'center' },
-  playPauseButton: { backgroundColor: '#2e7d32', color: '#ffffff', padding: '8px 20px', borderRadius: 8, border: 'none', cursor: 'pointer' },
+  playPauseButton: { backgroundColor: '#005f8c', color: '#ffffff', padding: '8px 20px', borderRadius: 8, border: 'none', cursor: 'pointer' },
   ayahList: { maxHeight: 300, overflowY: 'auto', marginBottom: 16 },
   ayahCard: { marginBottom: 12, padding: 12, borderRadius: 8, backgroundColor: '#f5f5f5' },
   ayahArabic: { fontSize: 20, textAlign: 'right', margin: 0, color: '#000000' },
   list: { maxHeight: 500, overflowY: 'auto' },
   row: { borderBottom: '1px solid #eeeeee', padding: 12, cursor: 'pointer' },
-  backButton: { marginTop: 16, background: 'none', border: 'none', color: '#2e7d32', fontWeight: '600', cursor: 'pointer' },
+  backButton: { marginTop: 16, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };
