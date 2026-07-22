@@ -78,7 +78,7 @@ export default function AdkarScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, paddingTop: 60, paddingBottom: 40 },
+  container: { flex: 1, padding: 24, paddingTop: 60, paddingBottom: 120 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   categoryBlock: { marginBottom: 20 },
   categoryTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8, color: '#005f8c' },
