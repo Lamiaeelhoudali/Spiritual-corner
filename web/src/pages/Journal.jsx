@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import BackButton from '../components/BackButton';
 
 export default function Journal() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ export default function Journal() {
         ))
       )}
 
-      <button style={styles.backButton} onClick={() => navigate('/dashboard')}>Back to Home</button>
+      <BackButton />
     </div>
   );
 }
@@ -82,5 +83,4 @@ const styles = {
   error: { color: '#cc0000', textAlign: 'center' },
   entry: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, cursor: 'pointer' },
   entryTitle: { fontWeight: 'bold', marginBottom: 4 },
-  backButton: { marginTop: 16, background: 'none', border: 'none', color: '#005f8c', fontWeight: '600', cursor: 'pointer' },
 };

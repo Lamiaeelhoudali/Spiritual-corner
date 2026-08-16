@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import BackButton from '../components/BackButton';
 import { useAudioPlayer, useAudioPlayerStatus, setAudioModeAsync } from 'expo-audio';
 import { useTheme } from '../context/ThemeContext';
 
@@ -77,7 +78,10 @@ export default function QuranScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Quran</Text>
+      <View style={styles.headerRow}>
+  <Text style={[styles.title, { color: colors.text }]}>Quran</Text>
+  <BackButton label="← Back" />
+</View>
       {currentSurah ? (
         <View style={[styles.nowPlaying, { backgroundColor: colors.card }]}>
           <Text style={[styles.nowPlayingText, { color: colors.text }]}>Playing: {currentSurah.englishName}</Text>
@@ -112,9 +116,6 @@ export default function QuranScreen() {
           )}
         />
       )}
-      <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
-        <Text style={styles.backText}>Back to Home</Text>
-      </Pressable>
     </View>
   );
 }
@@ -122,6 +123,7 @@ export default function QuranScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 24, paddingTop: 80 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   nowPlaying: { borderRadius: 8, padding: 12, marginBottom: 16, alignItems: 'center' },
   nowPlayingText: { fontSize: 16, marginBottom: 8 },
   playPauseButton: { backgroundColor: '#005f8c', paddingVertical: 8, paddingHorizontal: 20, borderRadius: 8 },

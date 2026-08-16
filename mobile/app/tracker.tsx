@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-nati
 import { router, useFocusEffect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../context/ThemeContext';
-
+import BackButton from '../components/BackButton';
 type Prayers = {
   Fajr: boolean;
   Dhuhr: boolean;
@@ -68,8 +68,11 @@ export default function TrackerScreen() {
   const prayerNames: (keyof Prayers)[] = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Today's Prayers</Text>
+  <View style={[styles.container, { backgroundColor: colors.background }]}>
+  <View style={styles.headerRow}>
+  <Text style={[styles.title, { color: colors.text }]}>Today's Prayers</Text>
+  <BackButton label="← Back" />
+  </View>
       {loading ? (
         <ActivityIndicator color="#005f8c" />
       ) : error ? (
@@ -86,9 +89,7 @@ export default function TrackerScreen() {
           </Pressable>
         ))
       ) : null}
-      <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
-        <Text style={styles.backText}>Back to Home</Text>
-      </Pressable>
+
     </View>
   );
 }
@@ -96,6 +97,7 @@ export default function TrackerScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 24, paddingTop: 80 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   error: { color: '#cc0000', textAlign: 'center' },
   row: { borderWidth: 1, borderRadius: 8, padding: 14, marginBottom: 10 },
   rowDone: { backgroundColor: '#e8f5e9', borderColor: '#005f8c' },

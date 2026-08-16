@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet, ImageBackground } from 'react-native';
 import { router } from 'expo-router';
+import BackButton from '../components/BackButton';
 import { Magnetometer } from 'expo-sensors';
 import * as Location from 'expo-location';
 import { useTheme } from '../context/ThemeContext';
@@ -68,7 +69,10 @@ export default function QiblaScreen() {
   return (
     <ImageBackground source={colors.backgroundImage} style={styles.container} resizeMode="cover">
       <View style={[styles.overlay, { backgroundColor: colors.card }]}>
-        <Text style={[styles.title, { color: colors.text }]}>Qibla Direction</Text>
+  <View style={styles.backButtonTop}>
+    <BackButton label="← Back" />
+  </View>
+  <Text style={[styles.title, { color: colors.text }]}>Qibla Direction</Text>
         {error ? (
           <Text style={styles.error}>{error}</Text>
         ) : qiblaBearing === null ? (
@@ -86,9 +90,6 @@ export default function QiblaScreen() {
             </Text>
           </>
         )}
-        <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
-          <Text style={styles.backText}>Back to Home</Text>
-        </Pressable>
       </View>
     </ImageBackground>
   );
@@ -97,6 +98,7 @@ export default function QiblaScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   overlay: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
+  backButtonTop: { position: 'absolute', top: 50, left: 20 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24 },
   error: { color: '#cc0000', textAlign: 'center' },
   compassCircle: {

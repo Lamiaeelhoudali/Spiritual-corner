@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import BackButton from '../components/BackButton';
 import { useTheme } from '../context/ThemeContext';
 
 const CATEGORIES = [
@@ -47,7 +48,10 @@ export default function AdkarScreen() {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Adkar</Text>
+      <View style={styles.headerRow}>
+  <Text style={[styles.title, { color: colors.text }]}>Adkar</Text>
+  <BackButton label="← Back" />
+</View>
       {CATEGORIES.map((category, catIndex) => (
         <View key={catIndex} style={styles.categoryBlock}>
           <Text style={styles.categoryTitle}>{category.title}</Text>
@@ -78,7 +82,8 @@ export default function AdkarScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, paddingTop: 60, paddingBottom: 120 },
+  container: { flex: 1, padding: 24, paddingTop: 60, paddingBottom: 200 },
+headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   categoryBlock: { marginBottom: 20 },
   categoryTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8, color: '#005f8c' },

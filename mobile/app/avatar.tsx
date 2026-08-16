@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import BackButton from '../components/BackButton';
 import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../context/ThemeContext';
 
@@ -36,7 +37,7 @@ export default function AvatarScreen() {
           </Pressable>
         ))}
       </View>
-      <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
+       <Pressable style={styles.backButton} onPress={() => router.push('/dashboard')}>
         <Text style={styles.backText}>Back to Home</Text>
       </Pressable>
     </View>
@@ -46,6 +47,7 @@ export default function AvatarScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', padding: 24, paddingTop: 80 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: 16 },
   currentAvatar: { fontSize: 80, marginBottom: 30 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 30 },
   avatarButton: { width: 70, height: 70, borderRadius: 35, borderWidth: 2, justifyContent: 'center', alignItems: 'center' },
