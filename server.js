@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const journalRoutes = require('./routes/journalRoutes');
 const trackerRoutes = require('./routes/trackerRoutes');
+const goodDeedRoutes = require('./routes/goodDeedRoutes');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 app.use(authRoutes);
 app.use(journalRoutes);
 app.use(trackerRoutes);
+app.use(goodDeedRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
