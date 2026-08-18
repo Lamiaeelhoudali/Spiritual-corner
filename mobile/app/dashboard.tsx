@@ -191,6 +191,9 @@ export default function DashboardScreen() {
               <Pressable style={styles.menuItem} onPress={() => router.push('/avatar')}>
                 <Text style={styles.menuItemText}>{t('avatar')}</Text>
               </Pressable>
+              <Pressable style={styles.menuItem} onPress={() => router.push('/good-deeds' as any)}>
+             <Text style={styles.menuItemText}>Good Deeds</Text>
+            </Pressable>
             </View>
           ) : null}
 
