@@ -145,6 +145,9 @@ export default function Dashboard() {
             <div style={styles.menuItem} onClick={() => navigate('/avatar')}>
               <p style={styles.menuItemText}>{t('avatar')}</p>
             </div>
+            <div style={styles.menuItem} onClick={() => navigate('/good-deeds')}>
+            <p style={styles.menuItemText}>Good Deeds</p>
+           </div>
           </div>
         ) : null}
 

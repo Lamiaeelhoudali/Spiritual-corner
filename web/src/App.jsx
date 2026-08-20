@@ -12,6 +12,7 @@ import Unlock from './pages/Unlock';
 import Tasbeeh from './pages/Tasbeeh';
 import Adkar from './pages/Adkar';
 import Avatar from './pages/Avatar';
+import GoodDeeds from './pages/GoodDeeds';
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ function App() {
         <Route path="/tasbeeh" element={<Tasbeeh />} />
         <Route path="/adkar" element={<Adkar />} />
         <Route path="/avatar" element={<Avatar />} /> 
+        <Route path="/good-deeds" element={<GoodDeeds />} />
       </Routes>
     </BrowserRouter>
   );

@@ -23,12 +23,15 @@ export default function GoodDeedsScreen() {
   const [deeds, setDeeds] = useState<Record<string, boolean>>({});
   const [week, setWeek] = useState<any[]>([]);
 
-  useFocusEffect(
-    useCallback(() => {
-      loadToday();
-      loadWeek();
-    }, [])
-  );
+ useFocusEffect(
+  useCallback(() => {
+    async function init() {
+      await loadToday();
+      await loadWeek();
+    }
+    init();
+  }, [])
+);
 
   async function loadToday() {
     try {

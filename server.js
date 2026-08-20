@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const journalRoutes = require('./routes/journalRoutes');
 const trackerRoutes = require('./routes/trackerRoutes');
 const goodDeedRoutes = require('./routes/goodDeedRoutes');
+const tasbeehRoutes = require('./routes/tasbeehRoutes');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use(authRoutes);
 app.use(journalRoutes);
 app.use(trackerRoutes);
 app.use(goodDeedRoutes);
+app.use(tasbeehRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
