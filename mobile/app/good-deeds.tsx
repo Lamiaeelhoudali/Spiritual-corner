@@ -5,6 +5,19 @@ import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../context/ThemeContext';
 import BackButton from '../components/BackButton';
 import WeekCalendar from '../components/WeekCalendar';
+import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withSequence, withTiming, withSpring } from 'react-native-reanimated';
+
+const LEAF_POSITIONS = [
+  { top: 0, left: 100 },
+  { top: 20, left: 40 },
+  { top: 20, left: 160 },
+  { top: 55, left: 10 },
+  { top: 55, left: 100 },
+  { top: 55, left: 190 },
+  { top: 90, left: 50 },
+  { top: 90, left: 150 },
+  { top: 110, left: 100 },
+];
 
 const DEEDS = [
   { key: 'helpedSomeone', label: 'Helped Someone' },
@@ -17,6 +30,42 @@ const DEEDS = [
   { key: 'gentleWithMyself', label: 'Gentle With Myself' },
   { key: 'keptMyPeace', label: 'Kept My Peace' },
 ];
+
+function AnimatedLeaf({ position, isDone, label, onPress }: any) {
+  const sway = useSharedValue(0);
+  const scale = useSharedValue(1);
+
+  useState(() => {
+    sway.value = withRepeat(
+      withSequence(
+        withTiming(3, { duration: 1500 }),
+        withTiming(-3, { duration: 1500 })
+      ),
+      -1,
+      true
+    );
+  });
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${sway.value}deg` }, { scale: scale.value }],
+  }));
+
+  function handlePress() {
+    scale.value = withSpring(1.2, {}, () => {
+      scale.value = withSpring(1);
+    });
+    onPress();
+  }
+
+  return (
+    <Animated.View style={[styles.leaf, isDone && styles.leafDone, position, animatedStyle]}>
+      <Pressable onPress={handlePress} style={styles.leafPressable}>
+        <Text style={styles.leafText}>{isDone ? '🌿' : '🍂'}</Text>
+        <Text style={styles.leafLabel}>{label}</Text>
+      </Pressable>
+    </Animated.View>
+  );
+}
 
 export default function GoodDeedsScreen() {
   const { colors } = useTheme();
@@ -91,18 +140,18 @@ export default function GoodDeedsScreen() {
         <BackButton label="← Back" />
       </View>
 
-      <View style={styles.tree}>
-        {DEEDS.map((d) => (
-          <Pressable
-            key={d.key}
-            style={[styles.leaf, deeds[d.key] && styles.leafDone]}
-            onPress={() => toggleLeaf(d.key)}
-          >
-            <Text style={styles.leafText}>{deeds[d.key] ? '🌿' : '🍂'}</Text>
-            <Text style={styles.leafLabel}>{d.label}</Text>
-          </Pressable>
-        ))}
-      </View>
+     <View style={styles.treeContainer}>
+  <View style={styles.trunk} />
+   {DEEDS.map((d, index) => (
+  <AnimatedLeaf
+    key={d.key}
+    position={LEAF_POSITIONS[index]}
+    isDone={deeds[d.key]}
+    label={d.label}
+    onPress={() => toggleLeaf(d.key)}
+  />
+))}
+</View>
 
       <Text style={[styles.subtitle, { color: colors.text }]}>This Week</Text>
       {calendarDays.length > 0 ? (
@@ -120,8 +169,11 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold' },
   subtitle: { fontSize: 18, fontWeight: 'bold', marginTop: 24, marginBottom: 12 },
   tree: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 14 },
-  leaf: { width: 95, height: 95, borderRadius: 12, backgroundColor: '#e8dcc8', justifyContent: 'center', alignItems: 'center', padding: 6 },
+  leaf: { position: 'absolute', width: 75, height: 75, borderRadius: 10, backgroundColor: '#e8dcc8', justifyContent: 'center', alignItems: 'center', padding: 4 },
   leafDone: { backgroundColor: '#c8e6c9', borderWidth: 2, borderColor: '#005f8c' },
   leafText: { fontSize: 22 },
   leafLabel: { fontSize: 10, textAlign: 'center', marginTop: 2, color: '#000000', fontWeight: '600' },
+  leafPressable: { width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' },
+  treeContainer: { width: '100%', height: 260, alignItems: 'center', position: 'relative', marginBottom: 20 },
+  trunk: { position: 'absolute', bottom: 0, left: '50%', marginLeft: -8, width: 16, height: 60, backgroundColor: '#8d6e4a', borderRadius: 4 },
 });
