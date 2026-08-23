@@ -1,86 +1,27 @@
 import { useState, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ScrollView, TextInput, Modal } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../context/ThemeContext';
 import BackButton from '../components/BackButton';
-import WeekCalendar from '../components/WeekCalendar';
-import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withSequence, withTiming, withSpring } from 'react-native-reanimated';
 
-const LEAF_POSITIONS = [
-  { top: 0, left: 100 },
-  { top: 20, left: 40 },
-  { top: 20, left: 160 },
-  { top: 55, left: 10 },
-  { top: 55, left: 100 },
-  { top: 55, left: 190 },
-  { top: 90, left: 50 },
-  { top: 90, left: 150 },
-  { top: 110, left: 100 },
-];
-
-const DEEDS = [
-  { key: 'helpedSomeone', label: 'Helped Someone' },
-  { key: 'gaveCharity', label: 'Gave Charity' },
-  { key: 'kindWord', label: 'A Kind Word' },
-  { key: 'helpedFamily', label: 'Helped Family' },
-  { key: 'smiled', label: 'Smiled' },
-  { key: 'spokeNoIll', label: 'Spoke No Ill' },
-  { key: 'withheldJudgment', label: 'Withheld Judgment' },
-  { key: 'gentleWithMyself', label: 'Gentle With Myself' },
-  { key: 'keptMyPeace', label: 'Kept My Peace' },
-];
-
-function AnimatedLeaf({ position, isDone, label, onPress }: any) {
-  const sway = useSharedValue(0);
-  const scale = useSharedValue(1);
-
-  useState(() => {
-    sway.value = withRepeat(
-      withSequence(
-        withTiming(3, { duration: 1500 }),
-        withTiming(-3, { duration: 1500 })
-      ),
-      -1,
-      true
-    );
-  });
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${sway.value}deg` }, { scale: scale.value }],
-  }));
-
-  function handlePress() {
-    scale.value = withSpring(1.2, {}, () => {
-      scale.value = withSpring(1);
-    });
-    onPress();
-  }
-
-  return (
-    <Animated.View style={[styles.leaf, isDone && styles.leafDone, position, animatedStyle]}>
-      <Pressable onPress={handlePress} style={styles.leafPressable}>
-        <Text style={styles.leafText}>{isDone ? '🌿' : '🍂'}</Text>
-        <Text style={styles.leafLabel}>{label}</Text>
-      </Pressable>
-    </Animated.View>
-  );
-}
+type Deed = {
+  _id: string;
+  text: string;
+  completed: boolean;
+};
 
 export default function GoodDeedsScreen() {
   const { colors } = useTheme();
-  const [deeds, setDeeds] = useState<Record<string, boolean>>({});
-  const [week, setWeek] = useState<any[]>([]);
+  const [deeds, setDeeds] = useState<Deed[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
- useFocusEffect(
-  useCallback(() => {
-    async function init() {
-      await loadToday();
-      await loadWeek();
-    }
-    init();
-  }, [])
-);
+  useFocusEffect(
+    useCallback(() => {
+      loadToday();
+    }, [])
+  );
 
   async function loadToday() {
     try {
@@ -93,45 +34,46 @@ export default function GoodDeedsScreen() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setDeeds(data.deeds || {});
+      setDeeds(data.deeds || []);
     } catch {
-      setDeeds({});
+      setDeeds([]);
     }
   }
 
-  async function loadWeek() {
+  async function addDeed() {
+    if (!inputValue.trim()) return;
     try {
       const token = await SecureStore.getItemAsync('token');
-      const res = await fetch('https://spiritual-corner.onrender.com/gooddeeds/week', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      setWeek(Array.isArray(data) ? data : []);
-    } catch {
-      setWeek([]);
-    }
-  }
-
-  async function toggleLeaf(key: string) {
-    const newValue = !deeds[key];
-    setDeeds({ ...deeds, [key]: newValue });
-    try {
-      const token = await SecureStore.getItemAsync('token');
-      await fetch('https://spiritual-corner.onrender.com/gooddeeds/today', {
+      const res = await fetch('https://spiritual-corner.onrender.com/gooddeeds/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ deed: key, completed: newValue }),
+        body: JSON.stringify({ text: inputValue.trim() }),
       });
+      const data = await res.json();
+      setDeeds(data.deeds || []);
+      setInputValue('');
+      setShowModal(false);
     } catch {
-      // stays optimistically updated locally even if save fails
+      // stays open if it fails
     }
   }
 
-  const calendarDays = week.map((entry) => ({
-    date: entry.date,
-    completed: Object.values(entry.deeds).filter(Boolean).length,
-    total: DEEDS.length,
-  }));
+  async function toggleDeed(deedId: string) {
+    try {
+      const token = await SecureStore.getItemAsync('token');
+      const res = await fetch('https://spiritual-corner.onrender.com/gooddeeds/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ deedId }),
+      });
+      const data = await res.json();
+      setDeeds(data.deeds || []);
+    } catch {
+      // no local fallback
+    }
+  }
+
+  const grownCount = deeds.filter((d) => d.completed).length;
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
@@ -139,41 +81,77 @@ export default function GoodDeedsScreen() {
         <Text style={[styles.title, { color: colors.text }]}>Good Deeds</Text>
         <BackButton label="← Back" />
       </View>
+      <Text style={[styles.subtitle, { color: colors.text }]}>
+        Every deed is a step closer to God. Add one, then tap it when it's done.
+      </Text>
 
-     <View style={styles.treeContainer}>
-  <View style={styles.trunk} />
-   {DEEDS.map((d, index) => (
-  <AnimatedLeaf
-    key={d.key}
-    position={LEAF_POSITIONS[index]}
-    isDone={deeds[d.key]}
-    label={d.label}
-    onPress={() => toggleLeaf(d.key)}
-  />
-))}
-</View>
+      <View style={styles.canopy}>
+        {deeds.map((d) => (
+          <Pressable
+            key={d._id}
+            style={[styles.deedBox, d.completed && styles.deedBoxGrown]}
+            onPress={() => toggleDeed(d._id)}
+          >
+            <Text style={[styles.deedText, d.completed && styles.deedTextGrown]}>{d.text}</Text>
+          </Pressable>
+        ))}
+        <Pressable style={styles.addTile} onPress={() => setShowModal(true)}>
+          <Text style={styles.addTileText}>+</Text>
+        </Pressable>
+      </View>
 
-      <Text style={[styles.subtitle, { color: colors.text }]}>This Week</Text>
-      {calendarDays.length > 0 ? (
-        <WeekCalendar days={calendarDays} />
-      ) : (
-        <Text style={{ color: colors.text }}>No history yet</Text>
-      )}
+      <View style={styles.trunk} />
+
+      <Text style={[styles.progress, { color: colors.text }]}>
+        {grownCount} grown · {deeds.length} deeds
+      </Text>
+
+      <Modal visible={showModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Enter your good deed:</Text>
+            <TextInput
+              style={styles.modalInput}
+              value={inputValue}
+              onChangeText={setInputValue}
+              placeholder="e.g. Helped a neighbor"
+              autoFocus
+              maxLength={60}
+            />
+            <View style={styles.modalActions}>
+              <Pressable style={styles.modalCancel} onPress={() => setShowModal(false)}>
+                <Text style={{ color: '#4A2E1E' }}>Cancel</Text>
+              </Pressable>
+              <Pressable style={styles.modalConfirm} onPress={addDeed}>
+                <Text style={{ color: '#fff' }}>Save</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 24, paddingTop: 60 },
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
   title: { fontSize: 24, fontWeight: 'bold' },
-  subtitle: { fontSize: 18, fontWeight: 'bold', marginTop: 24, marginBottom: 12 },
-  tree: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 14 },
-  leaf: { position: 'absolute', width: 75, height: 75, borderRadius: 10, backgroundColor: '#e8dcc8', justifyContent: 'center', alignItems: 'center', padding: 4 },
-  leafDone: { backgroundColor: '#c8e6c9', borderWidth: 2, borderColor: '#005f8c' },
-  leafText: { fontSize: 22 },
-  leafLabel: { fontSize: 10, textAlign: 'center', marginTop: 2, color: '#000000', fontWeight: '600' },
-  leafPressable: { width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' },
-  treeContainer: { width: '100%', height: 260, alignItems: 'center', position: 'relative', marginBottom: 20 },
-  trunk: { position: 'absolute', bottom: 0, left: '50%', marginLeft: -8, width: 16, height: 60, backgroundColor: '#8d6e4a', borderRadius: 4 },
+  subtitle: { fontSize: 12, fontStyle: 'italic', textAlign: 'center', marginBottom: 20 },
+  canopy: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'flex-end', gap: 12 },
+  deedBox: { width: 110, minHeight: 65, padding: 8, borderRadius: 10, borderWidth: 2, borderColor: '#8A6E45', backgroundColor: '#C9A876', justifyContent: 'center', alignItems: 'center' },
+  deedBoxGrown: { backgroundColor: '#4C8C3C', borderColor: '#33611F' },
+  deedText: { fontSize: 12, textAlign: 'center', color: '#2A211A' },
+  deedTextGrown: { color: '#ffffff' },
+  addTile: { width: 110, minHeight: 65, borderRadius: 10, borderWidth: 2, borderColor: '#B9AD93', borderStyle: 'dashed', justifyContent: 'center', alignItems: 'center' },
+  addTileText: { fontSize: 26, fontWeight: 'bold', color: '#B9AD93' },
+  trunk: { alignSelf: 'center', width: 50, height: 70, backgroundColor: '#4A2E1E', borderRadius: 6, marginTop: 4 },
+  progress: { textAlign: 'center', fontSize: 13, marginTop: 12, marginBottom: 30 },
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(42,33,26,0.45)', justifyContent: 'center', alignItems: 'center', padding: 16 },
+  modalBox: { backgroundColor: '#fff', borderRadius: 14, padding: 22, width: '100%', maxWidth: 340 },
+  modalTitle: { fontSize: 16, marginBottom: 14, color: '#2A211A' },
+  modalInput: { borderWidth: 1, borderColor: '#8A6E45', borderRadius: 8, padding: 10, marginBottom: 16, fontSize: 14 },
+  modalActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10 },
+  modalCancel: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 999, borderWidth: 1, borderColor: '#4A2E1E' },
+  modalConfirm: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 999, backgroundColor: '#4A2E1E' },
 });
