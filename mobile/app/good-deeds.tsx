@@ -1,15 +1,11 @@
 import { useState, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView, TextInput, Modal } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ScrollView, TextInput, Modal, Alert } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../context/ThemeContext';
 import BackButton from '../components/BackButton';
 
-type Deed = {
-  _id: string;
-  text: string;
-  completed: boolean;
-};
+type Deed = { _id: string; text: string; completed: boolean };
 
 export default function GoodDeedsScreen() {
   const { colors } = useTheme();
@@ -41,22 +37,23 @@ export default function GoodDeedsScreen() {
   }
 
   async function addDeed() {
-    if (!inputValue.trim()) return;
-    try {
-      const token = await SecureStore.getItemAsync('token');
-      const res = await fetch('https://spiritual-corner.onrender.com/gooddeeds/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ text: inputValue.trim() }),
-      });
-      const data = await res.json();
-      setDeeds(data.deeds || []);
-      setInputValue('');
-      setShowModal(false);
-    } catch {
-      // stays open if it fails
-    }
+  if (!inputValue.trim()) return;
+  try {
+    const token = await SecureStore.getItemAsync('token');
+    const res = await fetch('https://spiritual-corner.onrender.com/gooddeeds/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ text: inputValue.trim() }),
+    });
+    const data = await res.json();
+    Alert.alert('Response', JSON.stringify({ status: res.status, data }));
+    setDeeds(data.deeds || []);
+    setInputValue('');
+    setShowModal(false);
+  } catch (err) {
+    Alert.alert('Error', String(err));
   }
+}
 
   async function toggleDeed(deedId: string) {
     try {

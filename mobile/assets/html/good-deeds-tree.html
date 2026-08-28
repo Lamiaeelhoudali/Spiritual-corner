@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tree of Good Deeds</title>
+<style>
+  :root {
+    --bark: #4A2E1E;
+    --bark-light: #5C3A24;
+    --box-bg: #C9A876;
+    --box-border: #8A6E45;
+    --box-grown-bg: #4C8C3C;
+    --box-grown-border: #33611F;
+    --add-border: #B9AD93;
+    --bg: #F4F1EA;
+    --ink: #2A211A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 60px;
+  }
+  h1 { font-size: 22px; margin: 0 0 4px; text-align: center; }
+  p.sub {
+    margin: 20px 0 0;
+    font-size: 13px;
+    font-style: italic;
+    color: #6b5f52;
+    text-align: center;
+    max-width: 420px;
+  }
+  .tree-wrap { position: relative; width: min(94vw, 880px); }
+  svg.connectors {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; overflow: visible;
+  }
+  .canopy {
+    position: relative; z-index: 2; display: flex; flex-wrap: wrap;
+    justify-content: center; align-items: flex-end; gap: 18px 16px;
+    padding-bottom: 40px;
+  }
+  .deed-box {
+    width: 130px; min-height: 76px; padding: 10px 8px; border-radius: 12px;
+    border: 2px solid var(--box-border); background: var(--box-bg);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; font-size: 12px; line-height: 1.3; cursor: pointer;
+    user-select: none; transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .deed-box.grown { background: var(--box-grown-bg); border-color: var(--box-grown-border); color: #fff; }
+  .add-tile {
+    width: 130px; min-height: 76px; border-radius: 12px;
+    border: 2px dashed var(--add-border); background: transparent;
+    color: var(--add-border); font-size: 28px; font-weight: bold;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .trunk-box {
+    position: relative; z-index: 2; margin: 0 auto; width: 60px; height: 80px;
+    background: linear-gradient(to right, var(--bark) 0%, var(--bark-light) 50%, var(--bark) 100%);
+    clip-path: polygon(28% 0%, 72% 0%, 100% 100%, 0% 100%);
+  }
+  .progress { margin-top: 16px; color: #6b5f52; font-size: 14px; }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(42,33,26,0.45);
+    align-items: center; justify-content: center; z-index: 100; padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: #fff; border-radius: 14px; padding: 22px; width: 100%; max-width: 340px; }
+  .modal-box h2 { margin: 0 0 14px; font-size: 16px; }
+  .modal-box input {
+    width: 100%; font-family: inherit; font-size: 14px; padding: 10px 12px;
+    border-radius: 8px; border: 1px solid var(--box-border); margin-bottom: 16px; box-sizing: border-box;
+  }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  .modal-actions button {
+    font-family: inherit; font-size: 13px; padding: 8px 16px; border-radius: 999px;
+    border: 1px solid var(--bark); cursor: pointer;
+  }
+  .modal-actions .cancel { background: transparent; color: var(--bark); }
+  .modal-actions .confirm { background: var(--bark); color: #fff; }
+</style>
+</head>
+<body>
+
+  <h1>The Tree of Good Deeds</h1>
+
+  <div class="tree-wrap" id="treeWrap">
+    <svg class="connectors" id="connectors"></svg>
+    <div class="canopy" id="canopy">
+      <div class="add-tile" id="addTile">+</div>
+    </div>
+    <div class="trunk-box" id="trunkBox"></div>
+  </div>
+
+  <div class="progress" id="progress">0 grown · 0 deeds</div>
+  <p class="sub">Every deed is a step closer to God. Add one, then tap it when it's done.</p>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <h2>Enter your good deed:</h2>
+      <input type="text" id="modalInput" maxlength="60" placeholder="e.g. Helped a neighbor">
+      <div class="modal-actions">
+        <button class="cancel" id="modalCancel">Cancel</button>
+        <button class="confirm" id="modalConfirm">Save</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const svg = document.getElementById('connectors');
+  const canopy = document.getElementById('canopy');
+  const addTile = document.getElementById('addTile');
+  const trunkBox = document.getElementById('trunkBox');
+  const treeWrap = document.getElementById('treeWrap');
+  const NS = 'http://www.w3.org/2000/svg';
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalInput = document.getElementById('modalInput');
+
+  function post(msg) {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(JSON.stringify(msg));
+    }
+  }
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  function renderDeeds(deeds) {
+    document.querySelectorAll('.deed-box').forEach((n) => n.remove());
+    deeds.forEach((d) => {
+      const box = document.createElement('div');
+      box.className = 'deed-box' + (d.completed ? ' grown' : '');
+      box.textContent = d.text;
+      box.dataset.id = d._id;
+      box.addEventListener('click', () => post({ type: 'TOGGLE_DEED', deedId: d._id }));
+      canopy.insertBefore(box, addTile);
+    });
+    updateProgress(deeds);
+    requestAnimationFrame(drawConnectors);
+  }
+
+  function drawConnectors() {
+    svg.innerHTML = '';
+    const wrapRect = treeWrap.getBoundingClientRect();
+    const trunkRect = trunkBox.getBoundingClientRect();
+    const trunkX = trunkRect.left + trunkRect.width / 2 - wrapRect.left;
+    const trunkY = trunkRect.top - wrapRect.top;
+
+    document.querySelectorAll('.deed-box').forEach((box) => {
+      const r = box.getBoundingClientRect();
+      const x = r.left + r.width / 2 - wrapRect.left;
+      const y = r.bottom - wrapRect.top;
+      const midY = y + (trunkY - y) * 0.5;
+      const path = el('path', {
+        d: `M${x},${y} C${x},${midY} ${trunkX},${midY} ${trunkX},${trunkY}`,
+        stroke: '#5C3A24', 'stroke-width': 2.5, fill: 'none', 'stroke-linecap': 'round',
+      });
+      svg.appendChild(path);
+    });
+  }
+
+  function updateProgress(deeds) {
+    const grown = deeds.filter((d) => d.completed).length;
+    document.getElementById('progress').textContent = `${grown} grown · ${deeds.length} deeds`;
+  }
+
+  addTile.addEventListener('click', () => {
+    modalInput.value = '';
+    modalOverlay.classList.add('open');
+    setTimeout(() => modalInput.focus(), 50);
+  });
+  document.getElementById('modalCancel').addEventListener('click', () => {
+    modalOverlay.classList.remove('open');
+  });
+  document.getElementById('modalConfirm').addEventListener('click', submitModal);
+  modalInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitModal(); });
+
+  function submitModal() {
+    const value = modalInput.value.trim();
+    if (!value) { modalInput.focus(); return; }
+    post({ type: 'ADD_DEED', text: value });
+    modalOverlay.classList.remove('open');
+  }
+
+  window.addEventListener('resize', drawConnectors);
+
+  // Called by React Native to push real data into the page
+  window.setDeeds = function (deeds) {
+    renderDeeds(deeds || []);
+  };
+
+  post({ type: 'READY' });
+})();
+</script>
+</body>
+</html>
