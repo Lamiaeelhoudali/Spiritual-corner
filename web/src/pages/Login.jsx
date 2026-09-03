@@ -58,8 +58,16 @@ export default function Login() {
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 100, minHeight: '100vh', backgroundColor: '#ffffff' },
   title: { fontSize: 28, fontWeight: 'bold', marginBottom: 24 },
-  form: { display: 'flex', flexDirection: 'column', width: 300 },
-  input: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, fontSize: 16 },
+  form: { display: 'flex', flexDirection: 'column', width: 'clamp(280px, 30vw, 380px)' },
+  input: {
+    border: '1px solid #dddddd',
+    borderRadius: 8,
+    padding: 'clamp(12px, 1.2vw, 16px)',
+    marginBottom: 12,
+    fontSize: 'clamp(16px, 1vw + 10px, 18px)',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
   error: { color: '#cc0000', textAlign: 'center' },
   button: { backgroundColor: '#005f8c', color: '#ffffff', padding: 14, borderRadius: 8, border: 'none', fontWeight: 'bold', fontSize: 16, cursor: 'pointer' },
   link: { color: '#005f8c', fontWeight: '600', marginTop: 14, textDecoration: 'none' },

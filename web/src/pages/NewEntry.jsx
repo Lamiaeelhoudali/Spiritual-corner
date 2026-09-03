@@ -98,11 +98,28 @@ export default function NewEntry() {
 }
 
 const styles = {
-  container: { padding: 24, paddingTop: 80, maxWidth: 500, margin: '0 auto' },
+  container: { padding: 24, paddingTop: 80, maxWidth: 'clamp(320px, 90vw, 640px)', margin: '0 auto' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   form: { display: 'flex', flexDirection: 'column' },
-  input: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, fontSize: 16 },
-  textarea: { border: '1px solid #dddddd', borderRadius: 8, padding: 12, marginBottom: 12, fontSize: 16, minHeight: 120 },
+  input: {
+    border: '1px solid #dddddd',
+    borderRadius: 8,
+    padding: 'clamp(12px, 1.2vw, 16px)',
+    marginBottom: 12,
+    fontSize: 'clamp(16px, 1vw + 10px, 18px)',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  textarea: {
+    border: '1px solid #dddddd',
+    borderRadius: 8,
+    padding: 'clamp(12px, 1.2vw, 16px)',
+    marginBottom: 12,
+    fontSize: 'clamp(16px, 1vw + 10px, 18px)',
+    minHeight: 120,
+    width: '100%',
+    boxSizing: 'border-box',
+  },
   toggleLabel: { marginBottom: 12 },
   error: { color: '#cc0000', textAlign: 'center' },
   button: { backgroundColor: '#005f8c', color: '#ffffff', padding: 14, borderRadius: 8, border: 'none', fontWeight: 'bold', fontSize: 16, cursor: 'pointer' },
